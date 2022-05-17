@@ -1,4 +1,4 @@
-package com.ssafy.web.dto;
+package com.ssafy.web.model.dto;
 
 public class Video {
 	private String vid;
