@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Video {
 	//
-	private String vid;
-	private String url;
+	private int id;
+	private String videoKey;
 	private String title;
+	private String url;
 	private String part;
-	private int view;
-	private int likes;
+	private String channelName;
+	private String viewCnt;
+	
 }
