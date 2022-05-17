@@ -10,9 +10,9 @@ public interface VideoDao {
 	List<Video> selectVideoAll();
 	
 	
-	//test
+	//
 	
 	
-	// 
+	 
 	
 }

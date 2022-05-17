@@ -9,4 +9,6 @@
 	<select id="selectById" resultType="user" parameterType="String">
 		SELECT * FROM b_user WHERE id LIKE #{id}
 	</select>
+	
+	
 </mapper>
