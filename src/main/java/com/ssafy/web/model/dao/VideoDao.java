@@ -9,7 +9,9 @@ public interface VideoDao {
 	// 모든 비디오 정보를 가져옴
 	List<Video> selectVideoAll();
 	
-	// 
+	
+	//test
+	
 	
 	// 
 	
