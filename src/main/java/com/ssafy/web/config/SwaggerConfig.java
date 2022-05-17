@@ -29,5 +29,6 @@ public class SwaggerConfig {
 				.description("SSAFY BOARD REST API TEST")
 				.version("1.0")
 				.build();
+		
 	}
 }
