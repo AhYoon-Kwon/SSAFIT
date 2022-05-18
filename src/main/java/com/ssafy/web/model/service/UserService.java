@@ -1,16 +1,24 @@
 package com.ssafy.web.model.service;
 
+import java.util.Map;
+
+import org.springframework.validation.Errors;
+
 import com.ssafy.web.model.dto.User;
 
 public interface UserService {
+	//아이디 중복 체크
+	int idDuplicateCheck(String userid);
+	//이메일 중복 체크
+	int emailDuplicateCheck(String email);
+	//유효성 검사
+	public Map<String, String> validateHandling(Errors errors);
 	//회원가입
 	void join(User user);
 	//로그인
-	User login(String userId, String pw);
-	//비밀번호 변경
-	void changePassword(String oldPw, String newPw);
-	//기타 회원정보 수정
-	void changeUserInfo(User oldUser, User newUser);
+	int login(String userId, String pw);
+	//회원정보 수정
+	void changeUserInfo(User newUser);
 	//아이디 찾기
 	String findId(String email);
 	//비밀번호 재설정
