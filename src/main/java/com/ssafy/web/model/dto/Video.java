@@ -18,4 +18,8 @@ public class Video {
 	private String channelName;
 	private String viewCnt;
 	
+	//
+	private double avgRate;
+	private int likes;
+	
 }
