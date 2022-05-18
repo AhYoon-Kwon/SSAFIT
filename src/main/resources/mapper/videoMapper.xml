@@ -17,27 +17,37 @@
 		SELECT * FROM video;
 	</select>
 	
-	<select id="selectWatched" parameterType="int">
+	<select id="selectWatched" parameterType="int" resultMap="videoMap">
 		SELECT * FROM video JOIN likes ON video.id = likes.liked WHERE uid = #{id};
 	</select>
 	
-	<select id="selectLiked" parameterType="int">
-			SELECT * FROM video JOIN watched ON video.id = watched.watched WHERE uid = #{id};
+	<select id="selectLiked" parameterType="int" resultMap="videoMap">
+		SELECT * FROM video JOIN watched ON video.id = watched.watched WHERE uid = #{id};
 	</select>
 	
-	<select id="selectByTitle"></select>
+	<select id="selectByTitle" parameterType="String" resultMap="videoMap">
+		SELECT * FROM video WHERE title LIKE '%#{videoMap}%';
+	</select>
 	
-	<select id="selectByPart"></select>
+	<select id="selectByPart" parameterType="String" resultMap="videoMap">
+		SELECT * FROM video WHERE part LIKE '%#{videoMap}%';
+	</select>
+		
+	<select id="selectById" parameterType="int" resultMap="videoMap">
+		SELECT * FROM video WHERE id = #{id};
+	</select>
 	
-	<select id="selectById"></select>
+	<update id="update" parameterType="video">
+		UPDATE video SET 
+		video_key = #{videoKey}, title = #{title}, url = #{url}, part = #{part}, 
+		channel_name = #{channelName}, #{viewCnt} WHERE id = #{id};
+	</update>
 	
-	<update id="update"></update>
+	<insert id="insert" parameterType="video">
+		INSERT INTO video (video_key, title, url, part, channel_name)
+		VALUE
+		(#{videoKey}, #{title}, #{url} , #{part} , #{channelName}),
+	</insert>
 	
-	<insert id="insert"></insert>
-	
-	
-	
-	
-
 
 </mapper>
