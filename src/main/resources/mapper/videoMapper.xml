@@ -40,7 +40,7 @@
 	<update id="update" parameterType="video">
 		UPDATE video SET 
 		video_key = #{videoKey}, title = #{title}, url = #{url}, part = #{part}, 
-		channel_name = #{channelName}, #{viewCnt} WHERE id = #{id};
+		channel_name = #{channelName}, view_cnt = #{viewCnt} WHERE id = #{id};
 	</update>
 	
 	<insert id="insert" parameterType="video">

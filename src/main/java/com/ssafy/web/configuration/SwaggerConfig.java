@@ -17,8 +17,8 @@ public class SwaggerConfig {
 	public Docket api() {
 		return new Docket(DocumentationType.OAS_30)
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.ssafy.board.controller"))
-				.paths(PathSelectors.ant("/api/**"))
+				.apis(RequestHandlerSelectors.basePackage("com.ssafy.web.controller"))
+				.paths(PathSelectors.ant("/**"))
 				.build()
 				.apiInfo(apiInfo());
 	}
