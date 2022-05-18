@@ -9,14 +9,22 @@ public interface VideoDao {
 	// 모든 비디오 정보를 가져옴
 	List<Video> selectAll();
 	
+	// 시청한 비디오를 가져옴
+	// user의 id를 인자로 받음
+	List<Video> selectWatched(int id);
+
+	// 찜한 비디오를 가져옴
+	// user의 id를 인자로 받음
+	List<Video> selectLiked(int id);
+	
 	//id로 비디오 검색
-	Video selectById(Video video);
+	Video selectById(int id);
 	
 	//title로 비디오 검색
-	Video selectByTitle(String title);
+	List<Video> selectByTitle(String title);
 	
 	//part로 비디오 검색
-	Video selectByPart(String part);
+	List<Video> selectByPart(String part);
 	
 	// 비디오 정보 수정
 	void update(Video video);
