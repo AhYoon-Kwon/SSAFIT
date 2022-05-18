@@ -7,7 +7,7 @@
 		INSERT INTO user VALUES(#{userid}, #{nickname}, #{pw}, #{email})
 	</insert>
 	<update id="update" parameterType="user">
-		UPDATE book SET
+		UPDATE user SET
   		userid = #{userid},
   		nickname = #{nickname},
   		pw = #{pw},
