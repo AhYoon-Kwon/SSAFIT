@@ -1,8 +1,5 @@
 package com.ssafy.web.configuration;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,22 +12,23 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 public class SwaggerConfig {
-	
+
 	@Bean
 	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.produces(new HashSet<>(Arrays.asList("application/json")))
+		return new Docket(DocumentationType.OAS_30)
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.ssafy.board.controller"))
-				.paths(PathSelectors.ant("/board/api/**"))
-				.build().apiInfo(apiInfo());
+				.paths(PathSelectors.ant("/api/**"))
+				.build()
+				.apiInfo(apiInfo());
 	}
-
+	
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("SpringBootSwagger Test")
-				.description("SSAFY Swagger")
+				.title("SSAFY BOARD SWAGGER")
+				.description("SSAFY BOARD REST API TEST")
 				.version("1.0")
 				.build();
+		
 	}
 }
