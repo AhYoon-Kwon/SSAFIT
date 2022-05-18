@@ -2,12 +2,42 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.board.model.dao.UserDao">
-	<insert id="insertUser" parameterType="user">
-		INSERT INTO b_user VALUES(0, #{id}, #{pw}, #{username})
-	</insert>
-	<select id="selectById" resultType="user" parameterType="String">
-		SELECT * FROM b_user WHERE id LIKE #{id}
+<mapper namespace="com.ssafy.web.model.dao.VideoDao">
+	<resultMap type="video" id="videoMap">
+		<id column="id" property="id" />
+		<result column="video_key" property="videoKey" />
+		<result column="title" property="title" />
+		<result column="url" property="url" />
+		<result column="part" property="part" />
+		<result column="channel_name" property="channelName" />
+		<result column="view_cnt" property="viewCnt" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="videoMap">
+		SELECT * FROM video;
 	</select>
 	
+	<select id="selectWatched" parameterType="int">
+		SELECT * FROM video JOIN likes ON video.id = likes.liked WHERE uid = #{id};
+	</select>
+	
+	<select id="selectLiked" parameterType="int">
+			SELECT * FROM video JOIN watched ON video.id = watched.watched WHERE uid = #{id};
+	</select>
+	
+	<select id="selectByTitle"></select>
+	
+	<select id="selectByPart"></select>
+	
+	<select id="selectById"></select>
+	
+	<update id="update"></update>
+	
+	<insert id="insert"></insert>
+	
+	
+	
+	
+
+
 </mapper>
