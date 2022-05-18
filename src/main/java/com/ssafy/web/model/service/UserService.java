@@ -9,14 +9,12 @@ public interface UserService {
 	User login(String userId, String pw);
 	//비밀번호 변경
 	void changePassword(String oldPw, String newPw);
-	//프론트 계획 페이지 보니까 다른 회원정보 수정도 있길래 만들어봄
+	//기타 회원정보 수정
 	void changeUserInfo(User oldUser, User newUser);
 	//아이디 찾기
 	String findId(String email);
-	//비번 찾기
-	//근데 hash로 저장하면 비밀번호 찾는 것보다
-	//바로 비밀번호 변경 페이지로 넘어가는 게 나을지 고민중
-	String findPw(String email, String id);
+	//비밀번호 재설정
+	User changePw(String userid, String email);
 	//회원 탈퇴
-	void singOut(String userId, String pw);
+	void singOut(String userid, String pw);
 }
