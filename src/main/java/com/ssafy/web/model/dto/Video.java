@@ -16,6 +16,10 @@ public class Video {
 	private String url;
 	private String part;
 	private String channelName;
-	private String viewCnt;
+	private int viewCnt;
+	
+	
+	private double avgRate;
+	private int likes;
 	
 }
