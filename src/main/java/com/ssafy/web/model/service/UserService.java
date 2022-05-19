@@ -11,12 +11,10 @@ public interface UserService {
 	int idDuplicateCheck(String userid);
 	//이메일 중복 체크
 	int emailDuplicateCheck(String email);
-	//유효성 검사
-	public Map<String, String> validateHandling(Errors errors);
 	//회원가입
 	void join(User user) throws Exception;
 	//로그인
-	int login(String userId, String pw);
+	int login(String userId, String pw) throws Exception;
 	//회원정보 수정
 	void changeUserInfo(User newUser);
 	//아이디 찾기

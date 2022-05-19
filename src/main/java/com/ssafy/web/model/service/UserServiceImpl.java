@@ -34,31 +34,21 @@ public class UserServiceImpl implements UserService{
 	public int emailDuplicateCheck(String email) {
 		return userDao.emailDuplicateCheck(email);
 	}
-	
-	// 회원가입 시, 유효성 체크
-	@Transactional(readOnly = true)
-	@Override
-	public Map<String, String> validateHandling(Errors errors) {
-		Map<String, String> validatorResult = new HashMap<>();
-		// 유효성 검사에 실패한 필드 목록을 받음 
-		for (FieldError error : errors.getFieldErrors()) {
-			String validKeyName = String.format("valid_%s", error.getField());
-			validatorResult.put(validKeyName, error.getDefaultMessage());
-		}
-		return validatorResult;
-	}
 
 	//회원가입
-	@Transactional(readOnly = true)
+	@Transactional
 	@Override
 	public void join(User user) throws Exception {
 		//비밀번호 암호화해서 저장
 		user.setPw( new SHA256().getHash(user.getPw()) );
 		userDao.insert(user);
 	}
-
+	
+	@Transactional
 	@Override
-	public int login(String userId, String pw) {
+	public int login(String userId, String pw) throws Exception {
+		//동일한 알고리즘으로 암호화
+		pw = new SHA256().getHash(pw);
 		//존재하지 않는 아이디로 로그인 하거나
 		//아이디는 존재하지만 비밀번호가 틀릴 경우 로그인 실패
 		if(userDao.selectOne(userId) == null || userDao.selectOne(userId).getPw() != pw)
