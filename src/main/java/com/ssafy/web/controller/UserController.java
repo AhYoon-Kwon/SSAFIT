@@ -3,13 +3,12 @@ package com.ssafy.web.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.validation.Valid;
-
+import org.apache.ibatis.javassist.bytecode.DuplicateMemberException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,23 +31,32 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	//아이디 중복 체크
+	@GetMapping("/join/iCk/{id}")
+	public ResponseEntity<String> idDuplicateCheck(@PathVariable String id) throws Exception{
+		//DB에서 아이디로 검색했을 때 값이 나오면 중복된 아이디
+		if(userService.idDuplicateCheck(id)==1) {
+			throw new DuplicateMemberException("중복된 아이디 입니다.");
+		}
+		//아무것도 찾을 수 없다면 중복 검사 통과
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+	
+	//이메일 중복 체크
+	@GetMapping("/join/eCk/{email}")
+	public ResponseEntity<String> emailDuplicateCheck(@PathVariable String email) throws Exception{
+		//DB에서 이메일로 검색했을 때 값이 나오면 중복된 이메일
+		if(userService.emailDuplicateCheck(email)==1)
+			throw new DuplicateMemberException("중복된 이메일 입니다.");
+		//아무것도 찾을 수 없다면 중복 검사 통과
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+	
 	// 회원가입
 	@PostMapping("/join/auth")
-	public String joinValidateCheck(@Valid User user, Errors errors, Model model) {
-		if (errors.hasErrors()) {
-			//회원가입 실패시 입력 데이터 값을 유지
-			model.addAttribute("User", user);
-			//유효성 통과 못한 필드와 메시지를 핸들링
-			Map<String, String> validatorResult = userService.validateHandling(errors);
-			for (String key : validatorResult.keySet()) {
-				model.addAttribute(key, validatorResult.get(key));
-			}
-			// 회원가입 페이지로 다시 리턴
-			return "/user/join";
-		}
-		//유효성 검사 성공하면 로그인 페이지로 이동
+	public ResponseEntity<String> join(@RequestBody User user) throws Exception {
 		userService.join(user);
-		return "redirect:/user/login";
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
 	//로그인

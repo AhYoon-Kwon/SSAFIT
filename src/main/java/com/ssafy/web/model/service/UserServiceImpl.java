@@ -1,16 +1,20 @@
 package com.ssafy.web.model.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import com.ssafy.web.exception.UserNotFoundException;
 import com.ssafy.web.model.dao.UserDao;
 import com.ssafy.web.model.dto.User;
+import com.ssafy.web.util.SHA256;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
@@ -45,9 +49,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	//회원가입
+	@Transactional(readOnly = true)
 	@Override
-	public void join(User user) {
+	public void join(User user) throws Exception {
 		//비밀번호 암호화해서 저장
+		user.setPw( new SHA256().getHash(user.getPw()) );
 		userDao.insert(user);
 	}
 
@@ -91,5 +97,12 @@ public class UserServiceImpl implements UserService{
 		return null;
 	}
 
+	@Override
+	public User selectOneById(String userid) throws Exception {
+		User user = userDao.selectOne(userid);
+		if(user == null)
+			throw new UserNotFoundException();
+		return user;
+	}
 
 }

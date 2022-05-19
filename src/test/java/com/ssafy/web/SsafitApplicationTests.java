@@ -8,6 +8,7 @@ class SsafitApplicationTests {
 
 	@Test
 	void contextLoads() {
+		
 	}
 
 }

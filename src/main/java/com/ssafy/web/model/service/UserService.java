@@ -14,7 +14,7 @@ public interface UserService {
 	//유효성 검사
 	public Map<String, String> validateHandling(Errors errors);
 	//회원가입
-	void join(User user);
+	void join(User user) throws Exception;
 	//로그인
 	int login(String userId, String pw);
 	//회원정보 수정
@@ -25,4 +25,6 @@ public interface UserService {
 	User changePw(String userid, String email);
 	//회원 탈퇴
 	void singOut(String userid, String pw);
+	//아이디로 회원 불러오기
+	User selectOneById(String userid) throws Exception;
 }

@@ -29,7 +29,7 @@ public class JWTInterceptor implements HandlerInterceptor{
 		final String token = request.getHeader(HEADER_AUTH);
 		System.out.println("token : " + token);
 		if(token != null){
-			jwtUtil.valid(token);
+			jwtUtil.getUserPk(token);
 			return true;
 		}
 		throw new Exception("유효하지 않은 접근입니다.");
