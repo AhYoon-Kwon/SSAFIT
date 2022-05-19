@@ -1,7 +1,9 @@
 package com.ssafy.web.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.ssafy.web.model.dto.Interest;
 import com.ssafy.web.model.dto.Video;
 
 public interface VideoService {
@@ -23,5 +25,8 @@ public interface VideoService {
 	
 	// viewCnt 증가
 	void updateViewCnt(int id);
+	
+	// User의 부위별 관심도를 반환
+	List<Interest> getInterest(int id);
 	
 }

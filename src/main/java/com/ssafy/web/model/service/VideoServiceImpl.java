@@ -1,11 +1,13 @@
 package com.ssafy.web.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.web.model.dao.VideoDao;
+import com.ssafy.web.model.dto.Interest;
 import com.ssafy.web.model.dto.Video;
 
 @Service
@@ -50,5 +52,11 @@ public class VideoServiceImpl implements VideoService{
 		Video video = videoDao.selectById(id);
 		video.setViewCnt(video.getViewCnt() + 1);
 		videoDao.update(video);
+	}
+	
+	@Override
+	public List<Interest> getInterest(int id) {
+		
+		return videoDao.getInterest(id); 
 	}
 }

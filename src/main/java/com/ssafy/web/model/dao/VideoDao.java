@@ -2,6 +2,7 @@ package com.ssafy.web.model.dao;
 
 import java.util.List;
 
+import com.ssafy.web.model.dto.Interest;
 import com.ssafy.web.model.dto.Video;
 
 public interface VideoDao {
@@ -31,6 +32,9 @@ public interface VideoDao {
 	
 	// 비디오 삽입
 	void insert(Video video);
+	
+	// 관심도를 반환
+	List<Interest> getInterest(int id);
 	
 	
 	 
