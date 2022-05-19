@@ -14,8 +14,8 @@ public class Review {
 	private int rate;
 	private String content;
 	private String time;
-	private int depth;
-	private int re_id;
+	private int depth;  //댓글의 깊이 , 일반 댓글은 0, 대댓글은 1
+	private int re_id; //대댓글(depth=1)일 경우 모댓글의 id값을 저장하여 누구의 대댓글인지 확인 할 수 있게
 	
 	//다른 dao에서 조인할것들
 	private int vid;
