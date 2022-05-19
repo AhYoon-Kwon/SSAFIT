@@ -24,7 +24,7 @@ public interface UserService {
 	//비밀번호 재설정
 	User changePw(String userid, String email);
 	//회원 탈퇴
-	void singOut(String userid, String pw);
+	int singOut(String userid) throws Exception;
 	//아이디로 회원 불러오기
 	User selectOneById(String userid) throws Exception;
 }
