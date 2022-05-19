@@ -26,6 +26,50 @@
 		FROM review r
 		JOIN user u
 		ON r.uid = u.id
-		WHERE vid = #{id};
+		WHERE vid = #{vid};
 	</select>
+	
+	<select id="selectParRev" parameterType="HashMap"> 
+	<!-- where절에서 한번걸러서 select문에서 depth는 안가져와도 될것같아 제외했습니다 -->
+		SELECT r.id, rate, content, time, re_id, u.nickname
+		FROM review r
+		JOIN user u
+		ON r.uid = u.id
+		WHERE vid = #{vid} AND depth = 0;
+	</select>
+	
+	<select id="selectChildRev" parameterType="HashMap">
+		SELECT r.id, rate, content, time, re_id, u.nickname
+		FROM review r
+		JOIN user u
+		ON r.uid = u.id
+		WHERE vid = #{vid} AND depth = 1;
+	</select>
+	
+	<select id="selectOne" parameterType="int">
+		SELECT * FROM review WHERE id = #{id}
+	</select>
+	
+	<!-- 대댓글 -->
+	<update id="parentCheck">
+		UPDATE review
+		SET re_id = #{id}
+		WHERE id != re_id
+	</update>
+	
+	<delete id="deleteRevGroup" parameterType="HashMap">
+		DELETE FROM review
+		WHERE vid = #{vid} AND re_id = #{re_id}
+	</delete>
+	
+	<insert id="insertReply">
+		INSERT INTO review (VID, UID, CONTENT, TIME, DEPTH, RE_ID)
+		VALUES (#{vid}, #{uid}, #{content}, #{time}, now(), 1, #{re_id})
+	</insert>
+	
+	<update id="updateReply">
+		UPDATE review
+		SET content = #{content},
+		WHERE id = #{id}
+	</update>
 </mapper>
