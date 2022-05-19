@@ -1,5 +1,9 @@
 package com.ssafy.web.model.dto;
 
-public class Interest {
+import lombok.Data;
 
+@Data
+public class Interest {
+	private String part;
+	private int cnt;
 }
