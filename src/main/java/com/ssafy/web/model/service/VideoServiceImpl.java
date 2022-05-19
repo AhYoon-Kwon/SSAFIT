@@ -49,7 +49,6 @@ public class VideoServiceImpl implements VideoService{
 		// TODO Auto-generated method stub
 		Video video = videoDao.selectById(id);
 		video.setViewCnt(video.getViewCnt() + 1);
-		System.out.println(video);
 		videoDao.update(video);
 	}
 }
