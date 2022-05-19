@@ -23,6 +23,9 @@ public interface VideoService {
 	// 제목으로 검색한 결과를 반환하다.
 	List<Video> searchByTitle(String title);
 	
+	// 부위별로 결과를 반환한다.
+	List<Video> searchByPart(String part);
+	
 	// viewCnt 증가
 	void updateViewCnt(int id);
 	

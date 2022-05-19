@@ -59,4 +59,10 @@ public class VideoServiceImpl implements VideoService{
 		
 		return videoDao.getInterest(id); 
 	}
+	
+	@Override
+	public List<Video> searchByPart(String part) {
+	
+		return videoDao.selectByPart(part);
+	}
 }
