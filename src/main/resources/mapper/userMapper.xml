@@ -3,10 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.web.model.dao.UserDao">
-	<insert id="insert" parameterType="user">
-		INSERT INTO user VALUES(#{userid}, #{nickname}, #{pw}, #{email})
+	<insert id="insert">
+		INSERT INTO user(userid, nickname, pw, email) VALUES(#{userid}, #{nickname}, #{pw}, #{email})
 	</insert>
-	<update id="update" parameterType="user">
+	<update id="update">
 		UPDATE user SET
   		userid = #{userid},
   		nickname = #{nickname},

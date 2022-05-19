@@ -23,8 +23,8 @@ import lombok.NoArgsConstructor;
 public class User {
 	
 	private int id;
-	private String userId;
-	private String nickName;
+	private String userid;
+	private String nickname;
 	private String pw;
 	private String email;
 }
