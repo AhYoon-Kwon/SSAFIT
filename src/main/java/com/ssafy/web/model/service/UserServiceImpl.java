@@ -77,13 +77,16 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public void singOut(String userid, String pw) {
+	public int singOut(String userid) throws Exception {
 		//아이디 존재하는지 확인
-		
-		//비밀번호 맞는지 확인
-		
+		User user = userDao.selectOne(userid);
+		if(user == null)
+			return 0;
 		//회원탈퇴
-		userDao.delete(userid);
+		else {
+			userDao.delete(userid);
+			return 1;
+		}
 	}
 
 	@Override

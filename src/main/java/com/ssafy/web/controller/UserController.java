@@ -7,6 +7,8 @@ import org.apache.ibatis.javassist.bytecode.DuplicateMemberException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,4 +85,14 @@ public class UserController {
 		}
 		return new ResponseEntity<Map<String,Object>>(result, status);
 	}
+	
+	//회원탈퇴
+	@DeleteMapping("/signOut/{id}")
+	public ResponseEntity<String> delete(@PathVariable String userid) throws Exception{
+		if(userService.singOut(userid) == 1) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+	
 }
