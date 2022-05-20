@@ -31,14 +31,11 @@ public interface ReviewDao {
 	//댓글 수정을 위한 리뷰 하나 select
 	Review selectOne(int id);
 	
-	void deleteRvByUserid(int id);
 	
-	//유저 탈퇴시 리뷰 전체 삭제 기능 : 댓글 없을 때 
-	//param: user id
-	void userDelete(int uid);
-
-	//자식도 삭제하기 위한 정보 얻어옴 (video id, re_id)
-	List<HashMap<String, Integer>> informId(int uid);
+	
+	//유저 탈퇴시 리뷰 전체 삭제 기능
+	void userDelete(String userid);
+	
 	
 	/* 대댓글 기능 */
 	//1. 부모 댓글일 때 부모 id와 re_id는 동일하게 함

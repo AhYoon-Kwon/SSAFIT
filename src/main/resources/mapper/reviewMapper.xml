@@ -29,17 +29,6 @@
 		WHERE vid = #{vid};
 	</select>
 	
-	<delete id="deleteRvByUserid" parameterType="int">
-		DELETE FROM review WHERE id IN
-		(
-		    SELECT id FROM(
-		    SELECT r1.id FROM review r1 
-		    JOIN review r2
-		    ON r1.uid = {uid} OR r1.re_id = {uid}
-		    GROUP BY id) A
-		)
-	</delete>
-	
 	<select id="selectParRev" resultType="review" parameterType="HashMap"> 
 	<!-- where절에서 한번걸러서 select문에서 depth는 안가져와도 될것같아 제외했습니다 -->
 		SELECT r.id, rate, content, time, re_id, u.nickname
@@ -61,15 +50,24 @@
 		SELECT * FROM review WHERE id = #{id}
 	</select>
 	
-	<delete id="userDelete" parameterType="int">
+	<delete id="userDelete" parameterType="String">
 		DELETE FROM review
-		WHERE uid = #{uid}
+		WHERE id 
+		IN (SELECT id FROM (
+			(SELECT id FROM review 
+			WHERE uid 
+			IN (SELECT id FROM user 
+				WHERE userid = #{userid}))
+		UNION
+			(SELECT id FROM review 
+			WHERE re_id 
+			IN (SELECT id FROM review 
+				WHERE uid 
+				IN (SELECT id FROM user 
+					WHERE userid = #{userid})))
+			) A
+		);
 	</delete>
-	
-	<select id="informId" resultType="java.util.HashMap">
-		SELECT vid, re_id FROM review
-		WHERE uid = #{uid} AND depth=1
-	</select>
 	
 	<!-- 대댓글 -->
 	<update id="parentCheck">

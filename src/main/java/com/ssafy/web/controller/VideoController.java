@@ -192,6 +192,9 @@ public class VideoController {
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
 	
+	@ApiOperation(
+			value = "좋아요 누르기"
+			)
 	@PostMapping("/likes")
 	public ResponseEntity<String> insertLikes(@RequestBody int id) {
 
@@ -202,10 +205,16 @@ public class VideoController {
 		 * USERID는 토큰에서 얻어옴
 		 */
 		
-		
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("uid", userId);
-		map.put("id", id);
+		User user;
+		try {
+			user = userService.selectOneById(Integer.toString(userId));
+			map.put("uid", user.getId());
+			map.put("id", id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		videoService.setLikes(map);
 
@@ -213,7 +222,9 @@ public class VideoController {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}	
 	
-	
+	@ApiOperation(
+			value = "좋아요 취소"
+			)
 	@DeleteMapping("/likes")
 	public ResponseEntity<String> deleteLikes(@RequestBody int id) {
 
@@ -240,6 +251,18 @@ public class VideoController {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
+	/*
+	 * 부위의 종류를 반환한다
+	 */
+	@ApiOperation(
+			value = "부위의 종류 반환"
+			)
+	@GetMapping("/part")
+	public ResponseEntity<List<String>> getParts() {
+		List<String> list = videoService.getPartAll();
+		
+		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+	}
 	
 	/*
 	 * 리뷰의 평점을 계산함

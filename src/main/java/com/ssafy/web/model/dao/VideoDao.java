@@ -54,4 +54,7 @@ public interface VideoDao {
 	
 	// likes table에 좋아요 삭제
 	void deleteLikes(HashMap<String, Integer> map);
+	
+	// 모든 부위를 반환
+	List<String> selectPartAll();
 }

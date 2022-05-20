@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService{
 			return 0;
 		//회원탈퇴
 		else {
-			reviewDao.deleteRvByUserid(id);
+			reviewDao.userDelete(userid);
 			userDao.delete(id);
 			return 1;
 		}

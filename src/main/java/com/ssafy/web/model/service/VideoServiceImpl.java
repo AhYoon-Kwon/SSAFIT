@@ -125,4 +125,10 @@ public class VideoServiceImpl implements VideoService{
 		videoDao.deleteLikes(map);
 	}
 	
+	@Override
+	public List<String> getPartAll() {
+		// TODO Auto-generated method stub
+		return videoDao.selectPartAll();
+	}
+	
 }
