@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	@Override
 	public void join(User user) throws Exception {
+		System.out.println(user.toString());
 		//비밀번호 암호화해서 저장
 		user.setPw( new SHA256().getHash(user.getPw()) );
 		userDao.insert(user);
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService{
 		pw = new SHA256().getHash(pw);
 		//존재하지 않는 아이디로 로그인 하거나
 		//아이디는 존재하지만 비밀번호가 틀릴 경우 로그인 실패
-		if(userDao.selectOneById(userId) == null || userDao.selectOneById(userId).getPw() != pw)
+		if(userDao.selectOneById(userId) == null || !userDao.selectOneById(userId).getPw().equals(pw))
 			return 0;
 		return 1;
 	}
