@@ -13,8 +13,8 @@
   		email = #{email},
   		WHERE id = #{id}
 	</update>
-	<delete id="delete" parameterType="String">
-  		DELETE FROM user WHERE userid = #{userid}
+	<delete id="delete" parameterType="int">
+  		DELETE FROM user WHERE id = #{id}
 	</delete>
 	<select id="selectOneById" resultType="user" parameterType="String">
 		SELECT * FROM user WHERE userid LIKE #{userid}
