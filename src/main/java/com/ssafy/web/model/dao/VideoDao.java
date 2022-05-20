@@ -1,5 +1,6 @@
 package com.ssafy.web.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.ssafy.web.model.dto.Interest;
@@ -36,7 +37,14 @@ public interface VideoDao {
 	// 관심도를 반환
 	List<Interest> getInterest(int id);
 	
+	// 특정 부위의 동영상 중 시청하지 않은 것을 반환
+	List<Video> selectNotWatchedByPart(HashMap<String, String> map);
 	
+	//모든 비디오를 랜덤한 순서로 반환
+	List<Video> selectAllRand();
+	
+	// 모든 동영상 중 시청하지 않은 것을 반환
+	List<Video> selectNotWatchedAllRand(int id);
 	 
 	
 }

@@ -65,4 +65,23 @@ public class VideoServiceImpl implements VideoService{
 	
 		return videoDao.selectByPart(part);
 	}
+	
+	@Override
+	public List<Video> searchNotWatchedByPart(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return videoDao.selectNotWatchedByPart(map);
+	}
+	
+	@Override
+	public List<Video> getVideoRand() {
+		// TODO Auto-generated method stub
+		return videoDao.selectAllRand();
+	}
+	
+	@Override
+	public List<Video> getNotWatchedVideoRand(int id) {
+		// TODO Auto-generated method stub
+		return videoDao.selectNotWatchedAllRand(id);
+	}
+	
 }

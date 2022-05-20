@@ -1,6 +1,7 @@
 package com.ssafy.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -98,19 +99,30 @@ public class VideoController {
 		List<Video> video = null;
 
 		List<Interest> interests = videoService.getInterest(userId);
+		
+		/*
+		 * USERID는 토큰에서 얻어옴
+		 */
+		
+		
+		// 시청하지 않은 동영상 중 관심도가 높은 동영상 순으로 동영상 배열을 설정
 		if (interests != null) {
 			video = new ArrayList<Video>();
 			
 			for (Interest i : interests) {
-				video.addAll(videoService.searchByPart(i.getPart()));
-				//NOT IN 사용해서 쿼리문 다시짜기!!
-
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("part", i.getPart());
+				map.put("id", Integer.toString(userId));
+				video.addAll(videoService.searchNotWatchedByPart(map));
 			}
 		}
+		// 관심분야가 없을 경우 랜덤으로  비디오 반환
+		else {
+			video = videoService.getNotWatchedVideoRand(userId);
+		}
+		
 
-		/*
-		 * USERID는 토큰에서 얻어옴
-		 */
+	
 
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}

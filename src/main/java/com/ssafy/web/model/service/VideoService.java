@@ -32,4 +32,11 @@ public interface VideoService {
 	// User의 부위별 관심도를 반환
 	List<Interest> getInterest(int id);
 	
+	// 특정 부위에 해당하는 동영상 중 안 본것을 반환
+	List<Video> searchNotWatchedByPart(HashMap<String, String> map);
+	
+	// 랜덤한 순서로 비디오 반환
+	List<Video> getVideoRand();
+	
+	List<Video> getNotWatchedVideoRand(int id);
 }

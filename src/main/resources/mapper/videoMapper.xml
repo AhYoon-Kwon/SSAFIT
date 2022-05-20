@@ -57,6 +57,21 @@
 		ORDER BY interest DESC;
 	</select>
 	
+	<select id="selectNotWatchedByPart" parameterType="java.util.HashMap" resultMap="videoMap">
+		SELECT * FROM video WHERE part LIKE '%#{part}%' 
+		AND id NOT IN (SELECT watched FROM watched WHERE uid = #{id});	
+	</select>
+	
+	<select id="selectAllRand" resultMap="videoMap">
+		SELECT * FROM video ORDER BY rand();
+	</select>
+	
+	<select id="selectNotWatchedAllRand" resultMap="videoMap" parameterType="int">
+		SELECT * FROM video ORDER BY rand()
+		NOT IN (SELECT watched FROM watched WHERE uid = #{id});
+	</select>
+	
+	
 	<update id="update" parameterType="video">
 		UPDATE video SET 
 		video_key = #{videoKey}, title = #{title}, url = #{url}, part = #{part}, 
@@ -68,6 +83,9 @@
 		VALUE
 		(#{videoKey}, #{title}, #{url} , #{part} , #{channelName}),
 	</insert>
+	
+	
+	
 	
 
 </mapper>
