@@ -82,6 +82,6 @@ public class VideoServiceImpl implements VideoService{
 	public List<Video> getNotWatchedVideoRand(int id) {
 		// TODO Auto-generated method stub
 		return videoDao.selectNotWatchedAllRand(id);
-	} 
+	}
 	
 }
