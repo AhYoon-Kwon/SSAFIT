@@ -16,7 +16,7 @@ public interface UserService {
 	//로그인
 	int login(String userId, String pw) throws Exception;
 	//회원정보 수정
-	void changeUserInfo(User newUser);
+	void changeUserInfo(User newUser, String userid);
 	//아이디 찾기
 	String findId(String email) throws Exception;
 	//비밀번호 재설정

@@ -62,7 +62,8 @@ public class UserServiceImpl implements UserService{
 	//회원 정보 수정
 	@Transactional
 	@Override
-	public void changeUserInfo(User newUser) {
+	public void changeUserInfo(User newUser, String userid) {
+		User user = userDao.selectOneById(userid);
 		userDao.update(newUser);
 	}
 	
@@ -85,6 +86,7 @@ public class UserServiceImpl implements UserService{
 			return 0;
 		//회원탈퇴
 		else {
+			reviewDao.userDelete(id);
 			userDao.delete(userid);
 			return 1;
 		}
@@ -98,7 +100,8 @@ public class UserServiceImpl implements UserService{
 		//새 비밀번호 저장하기
 		user.setPw(new SHA256().getHash(newPw));
 	}
-
+	
+	//userid로 id찾기
 	@Override
 	public User selectOneById(String userid) throws Exception {
 		User user = userDao.selectOneById(userid);

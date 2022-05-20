@@ -8,7 +8,6 @@
 	</insert>
 	<update id="update">
 		UPDATE user SET
-  		userid = #{userid},
   		nickname = #{nickname},
   		pw = #{pw},
   		email = #{email},
