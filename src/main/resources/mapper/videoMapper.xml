@@ -96,10 +96,14 @@
 		VALUE (#{uid}, #{id});
 	</insert>
 	
-	<delete id="deleteLikes">
-		DELETE FROM likes WHERE 
+	<delete id="deleteLikes" parameterType="java.util.HashMap">
+		DELETE FROM likes 
+		WHERE uid = #{uid} AND liked = #{id};
 	</delete>
 	
+	<select id="selectPartAll" resultType="String">
+		SELECT part FROM part;
+	</select>
 	
 	
 

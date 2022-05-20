@@ -56,5 +56,7 @@ public interface VideoService {
 	// likes에 좋아요 취소
 	void deleteLikes(HashMap<String, Integer> map);
 	
+	// 운동 부위를 반환
+	List<String> getPartAll();
 	
 }
