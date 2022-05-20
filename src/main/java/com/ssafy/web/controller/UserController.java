@@ -37,7 +37,7 @@ public class UserController {
 	private UserService userService;
 	
 	//아이디 중복 체크
-	@GetMapping("/join/iCk/{userid}")
+	@GetMapping("/join/id/{userid}")
 	public ResponseEntity<String> idDuplicateCheck(@PathVariable String userid) throws Exception{
 		//DB에서 아이디로 검색했을 때 값이 나오면 중복된 아이디
 		if(userService.idDuplicateCheck(userid)==1) {
@@ -48,7 +48,7 @@ public class UserController {
 	}
 	
 	//이메일 중복 체크
-	@GetMapping("/join/eCk/{email}")
+	@GetMapping("/join/email/{email}")
 	public ResponseEntity<String> emailDuplicateCheck(@PathVariable String email) throws Exception{
 		//DB에서 이메일로 검색했을 때 값이 나오면 중복된 이메일
 		if(userService.emailDuplicateCheck(email)==1)
@@ -99,7 +99,7 @@ public class UserController {
 	}
 	
 	//아이디 찾기
-	@GetMapping("/findId")
+	@GetMapping("/find-id")
 	public ResponseEntity<String> findId(String nickname, String email) throws Exception{
 		//입력된 이메일로 정보 조회
 		String userid = userService.findId(email);
@@ -115,7 +115,7 @@ public class UserController {
 	}
 	
 	//비밀번호 재설정 자격 검증 페이지
-	@GetMapping("/changPw/auth")
+	@GetMapping("/change-pw/auth")
 	public ResponseEntity<String> changPwAuth(@RequestBody User user) throws Exception {
 		//아이디, 닉네임, 이메일을 입력받고 동일한지 검사
 		User member = userService.selectOneById(user.getUserid());
@@ -132,7 +132,7 @@ public class UserController {
 	}
 	
 	//비밀번호 재설정
-	@PutMapping("/changPw/{userid}")
+	@PutMapping("/change-pw/{userid}")
 	public ResponseEntity<String> changePw(@PathVariable String userid, String pw) throws Exception{
 		userService.changePw(userid, pw);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
