@@ -19,6 +19,7 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void writeReview(Review review) {
 		reviewDao.insertReview(review);
+		reviewDao.parentCheck(review.getId());
 	}
 
 	//리뷰 수정 : 내용, 평점 수정
