@@ -55,6 +55,11 @@
 		WHERE uid = #{uid}
 	</delete>
 	
+	<select id="informId">
+		SELECT vid, re_id FROM review
+		WHERE uid = #{uid} AND depth=1
+	</select>
+	
 	<!-- 대댓글 -->
 	<update id="parentCheck">
 		UPDATE review
