@@ -6,7 +6,7 @@
 <mapper namespace="com.ssafy.web.model.dao.ReviewDao">
 	<insert id="insertReview">
 		INSERT INTO review (VID, UID, RATE, CONTENT, TIME, DEPTH, RE_ID)
-		VALUES (#{vid}, #{uid}, #{rate}, #{content}, #{time}, now(), 0, #{re_id})
+		VALUES (#{vid}, #{uid}, #{rate}, #{content}, now(), 0, #{re_id})
 	</insert>
 	
 	<update id="updateReview">
@@ -21,11 +21,55 @@
 		WHERE id = #{id}
 	</delete>
 	
-	<select id="selectByVId" parameterType="int">
+	<select id="selectByVId" resultType="review" parameterType="int">
 		SELECT r.id, rate, content, time, depth, re_id, u.nickname
 		FROM review r
 		JOIN user u
 		ON r.uid = u.id
-		WHERE vid = #{id};
+		WHERE vid = #{vid};
 	</select>
+	
+	<select id="selectParRev" resultType="review" parameterType="HashMap"> 
+	<!-- where절에서 한번걸러서 select문에서 depth는 안가져와도 될것같아 제외했습니다 -->
+		SELECT r.id, rate, content, time, re_id, u.nickname
+		FROM review r
+		JOIN user u
+		ON r.uid = u.id
+		WHERE vid = #{vid} AND depth = 0;
+	</select>
+	
+	<select id="selectChildRev" resultType="review" parameterType="HashMap">
+		SELECT r.id, rate, content, time, re_id, u.nickname
+		FROM review r
+		JOIN user u
+		ON r.uid = u.id
+		WHERE vid = #{vid} AND depth = 1
+	</select>
+	
+	<select id="selectOne" resultType="review" parameterType="int">
+		SELECT * FROM review WHERE id = #{id}
+	</select>
+	
+	<!-- 대댓글 -->
+	<update id="parentCheck">
+		UPDATE review
+		SET re_id = id
+		WHERE id != re_id AND depth = 0
+	</update>
+	
+	<delete id="deleteRevGroup" parameterType="HashMap">
+		DELETE FROM review
+		WHERE vid = #{vid} AND re_id = #{re_id}
+	</delete>
+	
+	<insert id="insertReply">
+		INSERT INTO review (VID, UID, CONTENT, TIME, DEPTH, RE_ID)
+		VALUES (#{vid}, #{uid}, #{content}, now(), 1, #{re_id})
+	</insert>
+	
+	<update id="updateReply">
+		UPDATE review
+		SET content = #{content},
+		WHERE id = #{id}
+	</update>
 </mapper>

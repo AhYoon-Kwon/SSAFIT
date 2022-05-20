@@ -12,6 +12,11 @@
 		<result column="channel_name" property="channelName" />
 		<result column="view_cnt" property="viewCnt" />
 	</resultMap>
+	
+	<resultMap type="interest" id="interestMap">
+		<result column="part" property="part"/>
+		<result column="interest" property="cnt"/>
+	</resultMap>
 
 	<select id="selectAll" resultMap="videoMap">
 		SELECT * FROM video;
@@ -37,6 +42,36 @@
 		SELECT * FROM video WHERE id = #{id};
 	</select>
 	
+	<select id="getInterest" parameterType="int" resultMap="interestMap">
+		SELECT part,
+		SUM(interest) AS interest
+		FROM
+		(
+		SELECT part, COUNT(*) AS 'interest' FROM video JOIN likes ON video.id =
+		likes.liked WHERE likes.uid = #{id} GROUP BY part
+		UNION ALL
+		SELECT part, COUNT(*) AS 'interest' FROM video JOIN watched ON video.id =
+		watched.watched WHERE watched.uid = #{id} GROUP BY part
+		) S
+		GROUP BY part
+		ORDER BY interest DESC;
+	</select>
+	
+	<select id="selectNotWatchedByPart" parameterType="java.util.HashMap" resultMap="videoMap">
+		SELECT * FROM video WHERE part LIKE '%#{part}%' 
+		AND id NOT IN (SELECT watched FROM watched WHERE uid = #{id});	
+	</select>
+	
+	<select id="selectAllRand" resultMap="videoMap">
+		SELECT * FROM video ORDER BY rand();
+	</select>
+	
+	<select id="selectNotWatchedAllRand" resultMap="videoMap" parameterType="int">
+		SELECT * FROM video ORDER BY rand()
+		NOT IN (SELECT watched FROM watched WHERE uid = #{id});
+	</select>
+	
+	
 	<update id="update" parameterType="video">
 		UPDATE video SET 
 		video_key = #{videoKey}, title = #{title}, url = #{url}, part = #{part}, 
@@ -48,6 +83,9 @@
 		VALUE
 		(#{videoKey}, #{title}, #{url} , #{part} , #{channelName}),
 	</insert>
+	
+	
+	
 	
 
 </mapper>

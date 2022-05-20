@@ -1,11 +1,13 @@
 package com.ssafy.web.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.web.model.dao.VideoDao;
+import com.ssafy.web.model.dto.Interest;
 import com.ssafy.web.model.dto.Video;
 
 @Service
@@ -51,4 +53,35 @@ public class VideoServiceImpl implements VideoService{
 		video.setViewCnt(video.getViewCnt() + 1);
 		videoDao.update(video);
 	}
+	
+	@Override
+	public List<Interest> getInterest(int id) {
+		
+		return videoDao.getInterest(id); 
+	}
+	
+	@Override
+	public List<Video> searchByPart(String part) {
+	
+		return videoDao.selectByPart(part);
+	}
+	
+	@Override
+	public List<Video> searchNotWatchedByPart(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return videoDao.selectNotWatchedByPart(map);
+	}
+	
+	@Override
+	public List<Video> getVideoRand() {
+		// TODO Auto-generated method stub
+		return videoDao.selectAllRand();
+	}
+	
+	@Override
+	public List<Video> getNotWatchedVideoRand(int id) {
+		// TODO Auto-generated method stub
+		return videoDao.selectNotWatchedAllRand(id);
+	}
+	
 }
