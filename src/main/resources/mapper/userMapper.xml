@@ -8,7 +8,6 @@
 	</insert>
 	<update id="update">
 		UPDATE user SET
-  		userid = #{userid},
   		nickname = #{nickname},
   		pw = #{pw},
   		email = #{email},
@@ -31,5 +30,8 @@
 	</select>
 	<select id="emailDuplicateCheck" resultType="int" parameterType="String">
 		SELECT COUNT(*) FROM user WHERE email = #{email}
+	</select>
+	<select id="selectIdByUserid" resultType="int" parameterType="String">
+		SELECT id FROM user WHERE userid LIKE #{userid}
 	</select>
 </mapper>

@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
 import com.ssafy.web.exception.UserNotFoundException;
+import com.ssafy.web.model.dao.ReviewDao;
 import com.ssafy.web.model.dao.UserDao;
 import com.ssafy.web.model.dto.User;
 import com.ssafy.web.util.SHA256;
@@ -20,7 +21,8 @@ import com.ssafy.web.util.SHA256;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDao userDao;
-	
+	@Autowired
+	private ReviewDao reviewDao;
 	//아이디 중복 체크
 	//1이면 중복으로 아이디 사용 불가, 아니라면 사용 가능
 	@Override
@@ -60,7 +62,8 @@ public class UserServiceImpl implements UserService{
 	//회원 정보 수정
 	@Transactional
 	@Override
-	public void changeUserInfo(User newUser) {
+	public void changeUserInfo(User newUser, String userid) {
+		User user = userDao.selectOneById(userid);
 		userDao.update(newUser);
 	}
 	
@@ -77,11 +80,13 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int singOut(String userid, String pw) throws Exception {
 		User user = userDao.selectOneById(userid);
+		int id = userDao.selectIdByUserid(userid);
 		//저장된 비밀번호와 다른 비밀번호 입력하면 0 반환
 		if(user.getPw() != new SHA256().getHash(pw))
 			return 0;
 		//회원탈퇴
 		else {
+			reviewDao.userDelete(id);
 			userDao.delete(userid);
 			return 1;
 		}
@@ -90,18 +95,13 @@ public class UserServiceImpl implements UserService{
 	//비밀번호 재설정
 	@Transactional
 	@Override
-	public User changePw(String userid, String email) throws Exception {
-		//아이디 존재하는지 확인
+	public void changePw(String userid, String newPw) throws Exception {
 		User user = userDao.selectOneById(userid);
-		if(user == null)
-			throw new UserNotFoundException();
-		//이메일 맞는지 확인
-		
 		//새 비밀번호 저장하기
-		
-		return null;
+		user.setPw(new SHA256().getHash(newPw));
 	}
-
+	
+	//userid로 id찾기
 	@Override
 	public User selectOneById(String userid) throws Exception {
 		User user = userDao.selectOneById(userid);
@@ -109,5 +109,5 @@ public class UserServiceImpl implements UserService{
 			throw new UserNotFoundException();
 		return user;
 	}
-
+	
 }

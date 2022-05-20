@@ -27,4 +27,5 @@ public class User {
 	private String nickname;
 	private String pw;
 	private String email;
+	private int profile;
 }
