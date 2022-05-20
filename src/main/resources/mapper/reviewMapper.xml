@@ -50,15 +50,24 @@
 		SELECT * FROM review WHERE id = #{id}
 	</select>
 	
-	<delete id="userDelete" parameterType="int">
+	<delete id="userDelete" parameterType="String">
 		DELETE FROM review
-		WHERE uid = #{uid}
+		WHERE id 
+		IN (SELECT id FROM (
+			(SELECT id FROM review 
+			WHERE uid 
+			IN (SELECT id FROM user 
+				WHERE userid = #{userid}))
+		UNION
+			(SELECT id FROM review 
+			WHERE re_id 
+			IN (SELECT id FROM review 
+				WHERE uid 
+				IN (SELECT id FROM user 
+					WHERE userid = #{userid})))
+			) A
+		);
 	</delete>
-	
-	<select id="informId" resultType="java.util.HashMap">
-		SELECT vid, re_id FROM review
-		WHERE uid = #{uid} AND depth=1
-	</select>
 	
 	<!-- 대댓글 -->
 	<update id="parentCheck">
