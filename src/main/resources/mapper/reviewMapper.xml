@@ -55,7 +55,7 @@
 		WHERE uid = #{uid}
 	</delete>
 	
-	<select id="informId">
+	<select id="informId" resultType="java.util.HashMap">
 		SELECT vid, re_id FROM review
 		WHERE uid = #{uid} AND depth=1
 	</select>
@@ -67,7 +67,7 @@
 		WHERE id != re_id AND depth = 0
 	</update>
 	
-	<delete id="deleteRevGroup" parameterType="HashMap">
+	<delete id="deleteRevGroup" parameterType="java.util.HashMap">
 		DELETE FROM review
 		WHERE vid = #{vid} AND re_id = #{re_id}
 	</delete>
