@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService{
 		userDao.insert(user);
 	}
 	
+	//로그인
 	@Transactional
 	@Override
 	public int login(String userId, String pw) throws Exception {
@@ -51,26 +52,33 @@ public class UserServiceImpl implements UserService{
 		pw = new SHA256().getHash(pw);
 		//존재하지 않는 아이디로 로그인 하거나
 		//아이디는 존재하지만 비밀번호가 틀릴 경우 로그인 실패
-		if(userDao.selectOne(userId) == null || userDao.selectOne(userId).getPw() != pw)
+		if(userDao.selectOneById(userId) == null || userDao.selectOneById(userId).getPw() != pw)
 			return 0;
 		return 1;
 	}
-
+	
+	//회원 정보 수정
+	@Transactional
 	@Override
 	public void changeUserInfo(User newUser) {
 		userDao.update(newUser);
 	}
-
+	
+	//아이디 찾기
 	@Override
-	public String findId(String email) {
-		return null;
-	}
-
-	@Override
-	public int singOut(String userid) throws Exception {
-		//아이디 존재하는지 확인
-		User user = userDao.selectOne(userid);
+	public String findId(String email) throws Exception {
+		User user = userDao.selectOneByEmail(email);
 		if(user == null)
+			throw new UserNotFoundException();
+		return user.getUserid();
+	}
+	
+	@Transactional
+	@Override
+	public int singOut(String userid, String pw) throws Exception {
+		User user = userDao.selectOneById(userid);
+		//저장된 비밀번호와 다른 비밀번호 입력하면 0 반환
+		if(user.getPw() != new SHA256().getHash(pw))
 			return 0;
 		//회원탈퇴
 		else {
@@ -78,11 +86,15 @@ public class UserServiceImpl implements UserService{
 			return 1;
 		}
 	}
-
+	
+	//비밀번호 재설정
+	@Transactional
 	@Override
-	public User changePw(String userid, String email) {
+	public User changePw(String userid, String email) throws Exception {
 		//아이디 존재하는지 확인
-		
+		User user = userDao.selectOneById(userid);
+		if(user == null)
+			throw new UserNotFoundException();
 		//이메일 맞는지 확인
 		
 		//새 비밀번호 저장하기
@@ -92,7 +104,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User selectOneById(String userid) throws Exception {
-		User user = userDao.selectOne(userid);
+		User user = userDao.selectOneById(userid);
 		if(user == null)
 			throw new UserNotFoundException();
 		return user;

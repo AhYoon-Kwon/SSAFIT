@@ -11,8 +11,10 @@ public interface UserDao{
 	void update(User user);
 	//회원탈퇴
 	void delete(String userid);
-	//로그인
-	User selectOne(String userid);
+	//아이디로 유저 찾기
+	User selectOneById(String userid);
+	//이메일로 유저 찾기
+	User selectOneByEmail(String email);
 	//아이디 중복 체크
 	int idDuplicateCheck(String userid);
 	//이메일 중복 체크
