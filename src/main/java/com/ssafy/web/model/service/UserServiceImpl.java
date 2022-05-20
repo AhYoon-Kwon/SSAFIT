@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService{
 		return user.getUserid();
 	}
 	
+	//회원 탈퇴
 	@Transactional
 	@Override
 	public int singOut(String userid, String pw) throws Exception {
@@ -86,7 +87,9 @@ public class UserServiceImpl implements UserService{
 			return 0;
 		//회원탈퇴
 		else {
-			reviewDao.userDelete(id);
+			HashMap<String, Integer> hm = reviewDao.informId(id);
+			reviewDao.deleteReview(id);
+			reviewDao.deleteRevGroup(new HashMap<Integer, Integer>(hm.get("vid"), hm.get("re_id")));
 			userDao.delete(userid);
 			return 1;
 		}
