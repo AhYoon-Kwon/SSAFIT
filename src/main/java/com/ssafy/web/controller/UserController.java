@@ -73,7 +73,7 @@ public class UserController {
 			//user 정보를 이용하여 데이터베이스 확인
 			//존재하면 토큰을 생성해서 결과에 넣어 반환
 			if(userService.login(user.getUserid(), user.getPw()) == 1) {
-				result.put("access-token", jwtUtil.createToken("id", user.getUserid()));
+				result.put("access-token", jwtUtil.createToken("userid", user.getUserid()));
 				result.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			}else {
@@ -89,6 +89,7 @@ public class UserController {
 	}
 	
 	//회원탈퇴
+	//회원탈퇴하고 리뷰 삭제하는 거 추가해야함
 	@DeleteMapping("/{userid}")
 	public ResponseEntity<String> delete(@PathVariable String userid, String pw) throws Exception{
 		if(userService.singOut(userid, pw) == 1) {
@@ -108,11 +109,27 @@ public class UserController {
 		//아이디 찾을 수 있으면 닉네임 동일한지 검사
 		User user = userService.selectOneById(userid);
 		//동일하지 않으면 예외 처리
-		if(user.getNickname() != nickname)
+		if(!user.getNickname().equals(nickname))
 			throw new WrongInfoException("닉네임이");
 		return new ResponseEntity<String>(userid, HttpStatus.OK);
 	}
 	
 	//비밀번호 재설정
+	@GetMapping("/changPw/auth")
+	public ResponseEntity<String> changPw(@RequestBody User user) throws Exception {
+		//아이디, 닉네임, 이메일을 입력받고 동일한지 검사
+		User member = userService.selectOneById(user.getUserid());
+		//아이디로 멤버 찾을 수 없으면 예외 처리
+		if(member == null)
+			throw new UserNotFoundException();
+		//닉네임이 동일하지 않으면 예외 처리
+		if(!member.getNickname().equals(user.getNickname()))
+			throw new WrongInfoException("닉네임이");
+		//이메일이 동일하지 않으면 예외 처리
+		if(!member.getEmail().equals(user.getEmail()))
+			throw new WrongInfoException("이메일이");
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+	
 	
 }
