@@ -58,7 +58,7 @@ public class UserController {
 	}
 	
 	// 회원가입
-	@PostMapping("/join/auth")
+	@PostMapping("/join")
 	public ResponseEntity<String> join(@RequestBody User user) throws Exception {
 		userService.join(user);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
