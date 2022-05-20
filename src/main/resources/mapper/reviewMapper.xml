@@ -29,6 +29,17 @@
 		WHERE vid = #{vid};
 	</select>
 	
+	<delete id="deleteRvByUserid" parameterType="int">
+		DELETE FROM review WHERE id IN
+		(
+		    SELECT id FROM(
+		    SELECT r1.id FROM review r1 
+		    JOIN review r2
+		    ON r1.uid = {uid} OR r1.re_id = {uid}
+		    GROUP BY id) A
+		)
+	</delete>
+	
 	<select id="selectParRev" resultType="review" parameterType="HashMap"> 
 	<!-- where절에서 한번걸러서 select문에서 depth는 안가져와도 될것같아 제외했습니다 -->
 		SELECT r.id, rate, content, time, re_id, u.nickname

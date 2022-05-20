@@ -88,13 +88,7 @@ public class UserServiceImpl implements UserService{
 			return 0;
 		//회원탈퇴
 		else {
-			reviewDao.deleteReview(id);
-			List<HashMap<String, Integer>> list = reviewDao.informId(id);
-			for(int i = 0; i < list.size(); i++) {
-				int vid = list.get(i).get("vid");
-				int re_id = list.get(i).get("re_id");
-				reviewDao.deleteRevGroup(new HashMap<Integer, Integer>(vid, re_id));
-			}
+			reviewDao.deleteRvByUserid(id);
 			userDao.delete(id);
 			return 1;
 		}
