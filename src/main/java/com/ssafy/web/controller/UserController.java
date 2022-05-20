@@ -58,17 +58,18 @@ public class UserController {
 	
 	// 회원가입
 	@PostMapping("/join")
-	public ResponseEntity<String> join(@RequestBody User user) throws Exception {
+	public ResponseEntity<String> join(User user) throws Exception {
 		userService.join(user);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
 	//로그인
 	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> login(@RequestBody User user){
+	public ResponseEntity<Map<String, Object>> login(User user) throws Exception{
 		HttpStatus status = null;
 		
 		HashMap<String, Object> result = new HashMap<>();
+		System.out.println(userService.login(user.getUserid(), user.getPw()));
 		try {
 			//user 정보를 이용하여 데이터베이스 확인
 			//존재하면 토큰을 생성해서 결과에 넣어 반환
@@ -115,7 +116,7 @@ public class UserController {
 	
 	//비밀번호 재설정 자격 검증 페이지
 	@GetMapping("/change-pw/auth")
-	public ResponseEntity<String> changPwAuth(@RequestBody User user) throws Exception {
+	public ResponseEntity<String> changPwAuth(User user) throws Exception {
 		//아이디, 닉네임, 이메일을 입력받고 동일한지 검사
 		User member = userService.selectOneById(user.getUserid());
 		//아이디로 멤버 찾을 수 없으면 예외 처리
