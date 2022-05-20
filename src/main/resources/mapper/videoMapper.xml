@@ -59,7 +59,8 @@
 	
 	<select id="selectNotWatchedByPart" parameterType="java.util.HashMap" resultMap="videoMap">
 		SELECT * FROM video WHERE part LIKE '%#{part}%' 
-		AND id NOT IN (SELECT watched FROM watched WHERE uid = #{id});	
+		AND id NOT IN (SELECT watched FROM watched WHERE uid = #{id})
+		ORDER BY rand();	
 	</select>
 	
 	<select id="selectAllRand" resultMap="videoMap">

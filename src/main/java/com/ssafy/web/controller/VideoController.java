@@ -37,6 +37,9 @@ public class VideoController {
 	@Autowired
 	UserService userService;
 
+	/*
+	 * 전체 비디오를 반환
+	 */
 	@GetMapping("/all")
 	public ResponseEntity<List<Video>> video() {
 		List<Video> video = videoService.getVideoRand();
@@ -44,11 +47,15 @@ public class VideoController {
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
 
+	/*
+	 * id에 해당하는 비디오를 반환
+	 * 시청기록에 추가
+	 * viewCnt 증가
+	 */
 	@GetMapping("/detail/{id}")
 	public ResponseEntity<Video> videoId(@PathVariable int id) {
 		videoService.updateViewCnt(id);
 		Video video = videoService.getVideoById(id);
-		
 		
 		int userId = 0;
 				
@@ -74,13 +81,12 @@ public class VideoController {
 		 */
 		video.setLikes(videoService.getLikeCnt(id));
 
-		
-		
-		
-		
 		return new ResponseEntity<Video>(video, HttpStatus.OK);
 	}
 
+	/*
+	 * 시청한 비디오를 반환
+	 */
 	@GetMapping("/watched")
 	public ResponseEntity<List<Video>> videoWatched() {
 
@@ -100,6 +106,9 @@ public class VideoController {
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
 
+	/*
+	 * 찜한 비디오를 반환
+	 */
 	@GetMapping("/liked")
 	public ResponseEntity<List<Video>> videoLiked() {
 
@@ -118,6 +127,9 @@ public class VideoController {
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
 
+	/*
+	 * user 추천 비디오를 반환
+	 */
 	@GetMapping("/recommended")
 	public ResponseEntity<List<Video>> videoRecommended(HttpServletRequest req) {
 
@@ -131,8 +143,6 @@ public class VideoController {
 		 * USERID는 토큰에서 얻어옴
 		 * 
 		 */
-		
-		
 		
 		
 		// 시청하지 않은 동영상 중 관심도가 높은 동영상 순으로 동영상 배열을 설정
