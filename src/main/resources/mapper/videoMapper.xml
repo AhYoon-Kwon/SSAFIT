@@ -23,19 +23,19 @@
 	</select>
 	
 	<select id="selectWatched" parameterType="int" resultMap="videoMap">
-		SELECT * FROM video JOIN likes ON video.id = likes.liked WHERE uid = #{id};
-	</select>
-	
-	<select id="selectLiked" parameterType="int" resultMap="videoMap">
 		SELECT * FROM video JOIN watched ON video.id = watched.watched WHERE uid = #{id};
 	</select>
 	
+	<select id="selectLiked" parameterType="int" resultMap="videoMap">
+		SELECT * FROM video JOIN likes ON video.id = likes.liked WHERE uid = #{id};
+	</select>
+	
 	<select id="selectByTitle" parameterType="String" resultMap="videoMap">
-		SELECT * FROM video WHERE title LIKE '%#{videoMap}%';
+		SELECT * FROM video WHERE title LIKE '%${videoMap}%';
 	</select>
 	
 	<select id="selectByPart" parameterType="String" resultMap="videoMap">
-		SELECT * FROM video WHERE part LIKE '%#{videoMap}%';
+		SELECT * FROM video WHERE part LIKE '%${videoMap}%';
 	</select>
 		
 	<select id="selectById" parameterType="int" resultMap="videoMap">
@@ -58,7 +58,7 @@
 	</select>
 	
 	<select id="selectNotWatchedByPart" parameterType="java.util.HashMap" resultMap="videoMap">
-		SELECT * FROM video WHERE part LIKE '%#{part}%' 
+		SELECT * FROM video WHERE part LIKE '%${part}%' 
 		AND id NOT IN (SELECT watched FROM watched WHERE uid = #{id})
 		ORDER BY rand();	
 	</select>
@@ -88,7 +88,7 @@
 	<insert id="insertWatched" parameterType="java.util.HashMap">
 		INSERT INTO watched (uid, watched)
 		VALUE
-		(#{userId}, #{id});
+		(#{uid}, #{id});
 	</insert>
 	
 	

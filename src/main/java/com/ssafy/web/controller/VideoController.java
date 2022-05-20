@@ -24,6 +24,8 @@ import com.ssafy.web.model.service.UserService;
 import com.ssafy.web.model.service.VideoService;
 import com.ssafy.web.util.JWTUtil;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/video")
 public class VideoController {
@@ -40,6 +42,9 @@ public class VideoController {
 	/*
 	 * 전체 비디오를 반환
 	 */
+	@ApiOperation(
+			value = "모든 비디오의 정보를 조회"
+			)
 	@GetMapping("/all")
 	public ResponseEntity<List<Video>> video() {
 		List<Video> video = videoService.getVideoRand();
@@ -52,12 +57,16 @@ public class VideoController {
 	 * 시청기록에 추가
 	 * viewCnt 증가
 	 */
+	@ApiOperation(
+			value = "특정 id에 대한 비디오 정보 반환"
+			,notes = "비디오의 정보와, 비디오의 평점, 좋아요 회수를 반환한다"
+			)
 	@GetMapping("/detail/{id}")
 	public ResponseEntity<Video> videoId(@PathVariable int id) {
 		videoService.updateViewCnt(id);
 		Video video = videoService.getVideoById(id);
 		
-		int userId = 0;
+		int userId = 1;
 				
 		/*
 		 * 시청기록이 존재하지 않으면 watched table에 추가
@@ -87,6 +96,9 @@ public class VideoController {
 	/*
 	 * 시청한 비디오를 반환
 	 */
+	@ApiOperation(
+			value = "회원의 시청기록을 반환"
+			)
 	@GetMapping("/watched")
 	public ResponseEntity<List<Video>> videoWatched() {
 
@@ -95,7 +107,7 @@ public class VideoController {
 		 * USERID는 토큰에서 얻어옴
 		 */
 
-		int userId = 0;
+		int userId = 1;
 
 		List<Video> video = videoService.getWatched(userId);
 
@@ -109,10 +121,13 @@ public class VideoController {
 	/*
 	 * 찜한 비디오를 반환
 	 */
+	@ApiOperation(
+			value = "회원의 찜 기록을 반환"
+			)
 	@GetMapping("/liked")
 	public ResponseEntity<List<Video>> videoLiked() {
 
-		int userId = 0;
+		int userId = 1;
 
 		/*
 		 * USERID는 토큰에서 얻어옴
@@ -130,15 +145,19 @@ public class VideoController {
 	/*
 	 * user 추천 비디오를 반환
 	 */
+	@ApiOperation(
+			value = "추천 비디오를 반환"
+			)
 	@GetMapping("/recommended")
 	public ResponseEntity<List<Video>> videoRecommended(HttpServletRequest req) {
 
-		int userId = 0;
+		int userId = 1;
 
 		List<Video> video = null;
 		
 		List<Interest> interests = videoService.getInterest(userId);
 		
+		System.out.println("interest OK");
 		/*
 		 * USERID는 토큰에서 얻어옴
 		 * 
@@ -148,16 +167,18 @@ public class VideoController {
 		// 시청하지 않은 동영상 중 관심도가 높은 동영상 순으로 동영상 배열을 설정
 		if (interests != null) {
 			video = new ArrayList<Video>();
-			
+			System.out.println("not null 부분");
 			for (Interest i : interests) {
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("part", i.getPart());
 				map.put("id", Integer.toString(userId));
 				video.addAll(videoService.searchNotWatchedByPart(map));
 			}
+			
 		}
 		// 관심분야가 없을 경우 랜덤으로  비디오 반환
 		else {
+			System.out.println("null 부분");
 			video = videoService.getNotWatchedVideoRand(userId);
 		}
 		
@@ -178,6 +199,7 @@ public class VideoController {
 			}
 		}
 		rate /= cnt;
+		
 		return rate;
 	}
 	
