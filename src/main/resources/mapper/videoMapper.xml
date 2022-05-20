@@ -84,6 +84,12 @@
 		(#{videoKey}, #{title}, #{url} , #{part} , #{channelName}),
 	</insert>
 	
+	<insert id="insertWatched" parameterType="java.util.HashMap">
+		INSERT INTO watched (uid, watched)
+		VALUE
+		(#{userId}, #{id});
+	</insert>
+	
 	
 	
 	

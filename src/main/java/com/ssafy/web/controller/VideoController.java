@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.model.dto.Interest;
+import com.ssafy.web.model.dto.Review;
 import com.ssafy.web.model.dto.Video;
+import com.ssafy.web.model.service.ReviewService;
+import com.ssafy.web.model.service.UserService;
 import com.ssafy.web.model.service.VideoService;
 import com.ssafy.web.util.JWTUtil;
 
@@ -27,10 +30,16 @@ public class VideoController {
 
 	@Autowired
 	VideoService videoService;
+	
+	@Autowired
+	ReviewService reviewService;
+	
+	@Autowired
+	UserService userService;
 
 	@GetMapping("video")
 	public ResponseEntity<List<Video>> video() {
-		List<Video> video = videoService.getVideo();
+		List<Video> video = videoService.getVideoRand();
 
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
@@ -39,30 +48,48 @@ public class VideoController {
 	public ResponseEntity<Video> videoId(@PathVariable int id) {
 		videoService.updateViewCnt(id);
 		Video video = videoService.getVideoById(id);
-
+		
+		
+		int userId = 0;
+				
+		/*
+		 * 시청기록이 존재하지 않으면 watched table에 추가
+		 */
+		if(!videoService.checkWatched(userId, id)) {
+			HashMap<String, Integer> map = new HashMap<String, Integer>();
+			map.put("id", id);
+			map.put("uid", userId);
+			videoService.setWatched(map);
+		}
+			
+		
 		/*
 		 * id에 해당하는 video의 리뷰를 가져 온 뒤 평균을 계산하여 객체 정보에 저장
 		 */
+		List<Review> reviews = reviewService.getReviewList(id);
+		video.setAvgRate(getAvgRate(reviews));
 
 		/*
-		 * 좋아요 한 회수를 가져온 뒤 객체 정보에 저장
+		 * 좋아요 한 횟수를 가져온 뒤 객체 정보에 저장
 		 */
+		video.setLikes(videoService.getLikeCnt(id));
 
-		/*
-		 * watched table에 시청기록이 존재하면 count 1증가 시청기록이 존재하지 않으면 watched table에 추가
-		 */
-
+		
+		
+		
+		
 		return new ResponseEntity<Video>(video, HttpStatus.OK);
 	}
 
 	@GetMapping("video/watched")
 	public ResponseEntity<List<Video>> videoWatched() {
 
-		int userId = 0;
 
 		/*
 		 * USERID는 토큰에서 얻어옴
 		 */
+
+		int userId = 0;
 
 		List<Video> video = videoService.getWatched(userId);
 
@@ -81,7 +108,7 @@ public class VideoController {
 		/*
 		 * USERID는 토큰에서 얻어옴
 		 */
-
+		
 		List<Video> video = videoService.getLiked(userId);
 
 		/*
@@ -92,17 +119,20 @@ public class VideoController {
 	}
 
 	@GetMapping("video/recommended")
-	public ResponseEntity<List<Video>> videoRecommended() {
+	public ResponseEntity<List<Video>> videoRecommended(HttpServletRequest req) {
 
 		int userId = 0;
 
 		List<Video> video = null;
-
+		
 		List<Interest> interests = videoService.getInterest(userId);
 		
 		/*
 		 * USERID는 토큰에서 얻어옴
+		 * 
 		 */
+		
+		
 		
 		
 		// 시청하지 않은 동영상 중 관심도가 높은 동영상 순으로 동영상 배열을 설정
@@ -121,9 +151,20 @@ public class VideoController {
 			video = videoService.getNotWatchedVideoRand(userId);
 		}
 		
-
-	
-
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
+	
+	public double getAvgRate(List<Review> reviews) {
+		double rate = 0;
+		int cnt = 0;
+		for(Review review : reviews) {
+			if(review.getDepth() == 0) {
+				cnt++;
+				rate += review.getRate();
+			}
+		}
+		rate /= cnt;
+		return rate;
+	}
+	
 }

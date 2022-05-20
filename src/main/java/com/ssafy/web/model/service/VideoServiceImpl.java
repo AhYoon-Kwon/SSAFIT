@@ -84,4 +84,31 @@ public class VideoServiceImpl implements VideoService{
 		return videoDao.selectNotWatchedAllRand(id);
 	}
 	
+	@Override
+	public int getLikeCnt(int id) {
+		// TODO Auto-generated method stub
+		return videoDao.selectLiked(id).size();
+	}
+	
+	@Override
+	public boolean checkWatched(int userId, int id) {
+		// TODO Auto-generated method stub
+		List<Video> watched = videoDao.selectWatched(userId);
+		if(watched == null)
+			return false;
+		else {
+			for(Video v : watched) {
+				if(v.getId() == id)
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public void setWatched(HashMap<String, Integer> map) {
+		// TODO Auto-generated method stub
+		videoDao.insertWatched(map);
+	}
+	
 }
