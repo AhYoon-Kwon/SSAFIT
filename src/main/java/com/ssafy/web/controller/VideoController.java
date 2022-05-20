@@ -25,7 +25,7 @@ import com.ssafy.web.model.service.VideoService;
 import com.ssafy.web.util.JWTUtil;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/video")
 public class VideoController {
 
 	@Autowired
@@ -37,14 +37,14 @@ public class VideoController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping("video")
+	@GetMapping("/all")
 	public ResponseEntity<List<Video>> video() {
 		List<Video> video = videoService.getVideoRand();
 
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
 
-	@GetMapping("video/{id}")
+	@GetMapping("/detail/{id}")
 	public ResponseEntity<Video> videoId(@PathVariable int id) {
 		videoService.updateViewCnt(id);
 		Video video = videoService.getVideoById(id);
@@ -81,7 +81,7 @@ public class VideoController {
 		return new ResponseEntity<Video>(video, HttpStatus.OK);
 	}
 
-	@GetMapping("video/watched")
+	@GetMapping("/watched")
 	public ResponseEntity<List<Video>> videoWatched() {
 
 
@@ -100,7 +100,7 @@ public class VideoController {
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
 
-	@GetMapping("video/liked")
+	@GetMapping("/liked")
 	public ResponseEntity<List<Video>> videoLiked() {
 
 		int userId = 0;
@@ -118,7 +118,7 @@ public class VideoController {
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
 
-	@GetMapping("video/recommended")
+	@GetMapping("/recommended")
 	public ResponseEntity<List<Video>> videoRecommended(HttpServletRequest req) {
 
 		int userId = 0;
@@ -154,6 +154,10 @@ public class VideoController {
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
 	
+	
+	/*
+	 * 리뷰의 평점을 계산함
+	 */
 	public double getAvgRate(List<Review> reviews) {
 		double rate = 0;
 		int cnt = 0;
