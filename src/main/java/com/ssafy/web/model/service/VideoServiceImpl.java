@@ -111,4 +111,18 @@ public class VideoServiceImpl implements VideoService{
 		videoDao.insertWatched(map);
 	}
 	
+	@Override
+	public void setLikes(HashMap<String, Integer> map) {
+		// TODO Auto-generated method stub
+		videoDao.insertLikes(map);
+		
+	}
+	
+	@Override
+	public void deleteLikes(HashMap<String, Integer> map) {
+		// TODO Auto-generated method stub
+		
+		videoDao.deleteLikes(map);
+	}
+	
 }

@@ -91,6 +91,14 @@
 		(#{uid}, #{id});
 	</insert>
 	
+	<insert id="insertLikes" parameterType="java.util.HashMap">
+		INSERT INTO likes (uid, liked)
+		VALUE (#{uid}, #{id});
+	</insert>
+	
+	<delete id="deleteLikes">
+		DELETE FROM likes WHERE 
+	</delete>
 	
 	
 	

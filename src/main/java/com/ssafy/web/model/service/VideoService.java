@@ -49,4 +49,12 @@ public interface VideoService {
 	
 	// watched에 시청기록 추가
 	void setWatched(HashMap<String, Integer> map);
+	
+	// likes에 좋아요 추가
+	void setLikes(HashMap<String, Integer> map);
+	
+	// likes에 좋아요 취소
+	void deleteLikes(HashMap<String, Integer> map);
+	
+	
 }

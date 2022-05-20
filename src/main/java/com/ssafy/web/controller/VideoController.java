@@ -11,13 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.model.dto.Interest;
 import com.ssafy.web.model.dto.Review;
+import com.ssafy.web.model.dto.User;
 import com.ssafy.web.model.dto.Video;
 import com.ssafy.web.model.service.ReviewService;
 import com.ssafy.web.model.service.UserService;
@@ -39,6 +43,9 @@ public class VideoController {
 	@Autowired
 	UserService userService;
 
+	static String SUCCESS = "SUCCESS";
+	static String FAIL = "FAIL";
+	
 	/*
 	 * 전체 비디오를 반환
 	 */
@@ -183,6 +190,54 @@ public class VideoController {
 		}
 		
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
+	}
+	
+	@PostMapping("/likes")
+	public ResponseEntity<String> insertLikes(@RequestBody int id) {
+
+		
+		int userId = 1;
+
+		/*
+		 * USERID는 토큰에서 얻어옴
+		 */
+		
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("uid", userId);
+		map.put("id", id);
+		
+		videoService.setLikes(map);
+
+
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}	
+	
+	
+	@DeleteMapping("/likes")
+	public ResponseEntity<String> deleteLikes(@RequestBody int id) {
+
+		int userId = 1;
+
+		/*
+		 * USERID는 토큰에서 얻어옴
+		 */
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		User user;
+		try {
+			user = userService.selectOneById(Integer.toString(userId));
+			map.put("uid", user.getId());
+			map.put("id", id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		videoService.deleteLikes(map);
+
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
 	

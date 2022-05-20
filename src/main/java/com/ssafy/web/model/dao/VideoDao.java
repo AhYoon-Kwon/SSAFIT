@@ -49,4 +49,9 @@ public interface VideoDao {
 	//Watched table에 시청기록 추가
 	void insertWatched(HashMap<String, Integer> map);
 	
+	// likes table에 찜 추가
+	void insertLikes(HashMap<String, Integer> map);
+	
+	// likes table에 좋아요 삭제
+	void deleteLikes(HashMap<String, Integer> map);
 }
