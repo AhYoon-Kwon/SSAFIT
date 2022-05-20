@@ -18,6 +18,8 @@ public class JWTInterceptor implements HandlerInterceptor{
 	@Autowired
 	private JWTUtil jwtUtil;
 	
+	//인터셉터에서 유효성 검사
+	//토큰에서 uid 찾기
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -33,6 +35,5 @@ public class JWTInterceptor implements HandlerInterceptor{
 			return true;
 		}
 		throw new Exception("유효하지 않은 접근입니다.");
-	}
-	
+	}	
 }
