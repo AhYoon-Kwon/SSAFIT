@@ -15,9 +15,10 @@ public interface UserDao{
 	User selectOneById(String userid);
 	//이메일로 유저 찾기
 	User selectOneByEmail(String email);
+	//유저아이디로 id 찾기
+	int selectIdByUserid(String userid);
 	//아이디 중복 체크
 	int idDuplicateCheck(String userid);
 	//이메일 중복 체크
 	int emailDuplicateCheck(String email);
-	
 }
