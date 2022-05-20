@@ -38,5 +38,15 @@ public interface VideoService {
 	// 랜덤한 순서로 비디오 반환
 	List<Video> getVideoRand();
 	
+	// 시청하지 않은 비디오를 랜덤한 순서로 반환
 	List<Video> getNotWatchedVideoRand(int id);
+	
+	// 비디오의 좋아요 개수 반환
+	int getLikeCnt(int id);
+	
+	// 시청했는지 확인
+	boolean checkWatched(int userId, int id);
+	
+	// watched에 시청기록 추가
+	void setWatched(HashMap<String, Integer> map);
 }

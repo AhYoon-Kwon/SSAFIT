@@ -46,5 +46,7 @@ public interface VideoDao {
 	// 모든 동영상 중 시청하지 않은 것을 반환
 	List<Video> selectNotWatchedAllRand(int id);
 	 
+	//Watched table에 시청기록 추가
+	void insertWatched(HashMap<String, Integer> map);
 	
 }
