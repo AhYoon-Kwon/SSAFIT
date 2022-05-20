@@ -38,7 +38,7 @@ public interface ReviewDao {
 	void userDelete(int uid);
 
 	//자식도 삭제하기 위한 정보 얻어옴 (video id, re_id)
-	HashMap<String, Integer> informId(int uid);
+	List<HashMap<String, Integer>> informId(int uid);
 	
 	
 	

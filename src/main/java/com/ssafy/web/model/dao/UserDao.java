@@ -10,7 +10,7 @@ public interface UserDao{
 	//회원정보수정
 	void update(User user);
 	//회원탈퇴
-	void delete(String userid);
+	void delete(int id);
 	//아이디로 유저 찾기
 	User selectOneById(String userid);
 	//이메일로 유저 찾기

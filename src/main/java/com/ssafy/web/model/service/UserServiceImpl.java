@@ -2,6 +2,7 @@ package com.ssafy.web.model.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.aop.ThrowsAdvice;
@@ -83,14 +84,18 @@ public class UserServiceImpl implements UserService{
 		User user = userDao.selectOneById(userid);
 		int id = userDao.selectIdByUserid(userid);
 		//저장된 비밀번호와 다른 비밀번호 입력하면 0 반환
-		if(user.getPw() != new SHA256().getHash(pw))
+		if(!user.getPw().equals(new SHA256().getHash(pw)))
 			return 0;
 		//회원탈퇴
 		else {
-			HashMap<String, Integer> hm = reviewDao.informId(id);
 			reviewDao.deleteReview(id);
-			reviewDao.deleteRevGroup(new HashMap<Integer, Integer>(hm.get("vid"), hm.get("re_id")));
-			userDao.delete(userid);
+			List<HashMap<String, Integer>> list = reviewDao.informId(id);
+			for(int i = 0; i < list.size(); i++) {
+				int vid = list.get(i).get("vid");
+				int re_id = list.get(i).get("re_id");
+				reviewDao.deleteRevGroup(new HashMap<Integer, Integer>(vid, re_id));
+			}
+			userDao.delete(id);
 			return 1;
 		}
 	}
