@@ -50,6 +50,11 @@
 		SELECT * FROM review WHERE id = #{id}
 	</select>
 	
+	<delete id="userDelete" parameterType="int">
+		DELETE FROM review
+		WHERE uid = #{uid}
+	</delete>
+	
 	<!-- 대댓글 -->
 	<update id="parentCheck">
 		UPDATE review
