@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.web.exception.UserNotFoundException;
+import com.ssafy.web.exception.WrongInfoException;
 import com.ssafy.web.model.dto.User;
 import com.ssafy.web.model.service.UserService;
 import com.ssafy.web.util.JWTUtil;
@@ -34,10 +36,10 @@ public class UserController {
 	private UserService userService;
 	
 	//아이디 중복 체크
-	@GetMapping("/join/iCk/{id}")
-	public ResponseEntity<String> idDuplicateCheck(@PathVariable String id) throws Exception{
+	@GetMapping("/join/iCk/{userid}")
+	public ResponseEntity<String> idDuplicateCheck(@PathVariable String userid) throws Exception{
 		//DB에서 아이디로 검색했을 때 값이 나오면 중복된 아이디
-		if(userService.idDuplicateCheck(id)==1) {
+		if(userService.idDuplicateCheck(userid)==1) {
 			throw new DuplicateMemberException("중복된 아이디 입니다.");
 		}
 		//아무것도 찾을 수 없다면 중복 검사 통과
@@ -87,12 +89,30 @@ public class UserController {
 	}
 	
 	//회원탈퇴
-	@DeleteMapping("/signOut/{id}")
-	public ResponseEntity<String> delete(@PathVariable String userid) throws Exception{
-		if(userService.singOut(userid) == 1) {
+	@DeleteMapping("/{userid}")
+	public ResponseEntity<String> delete(@PathVariable String userid, String pw) throws Exception{
+		if(userService.singOut(userid, pw) == 1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
+	
+	//아이디 찾기
+	@GetMapping("/findId")
+	public ResponseEntity<String> findId(String nickname, String email) throws Exception{
+		//입력된 이메일로 정보 조회
+		String userid = userService.findId(email);
+		//이메일로 아이디 찾을 수 없으면 예외처리
+		if(userid == null)
+			throw new UserNotFoundException();
+		//아이디 찾을 수 있으면 닉네임 동일한지 검사
+		User user = userService.selectOneById(userid);
+		//동일하지 않으면 예외 처리
+		if(user.getNickname() != nickname)
+			throw new WrongInfoException("닉네임이");
+		return new ResponseEntity<String>(userid, HttpStatus.OK);
+	}
+	
+	//비밀번호 재설정
 	
 }

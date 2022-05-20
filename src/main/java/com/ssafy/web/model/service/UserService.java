@@ -18,11 +18,11 @@ public interface UserService {
 	//회원정보 수정
 	void changeUserInfo(User newUser);
 	//아이디 찾기
-	String findId(String email);
+	String findId(String email) throws Exception;
 	//비밀번호 재설정
-	User changePw(String userid, String email);
+	User changePw(String userid, String email) throws Exception;
 	//회원 탈퇴
-	int singOut(String userid) throws Exception;
+	int singOut(String userid, String pw) throws Exception;
 	//아이디로 회원 불러오기
 	User selectOneById(String userid) throws Exception;
 }
