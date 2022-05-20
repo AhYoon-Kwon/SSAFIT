@@ -68,7 +68,7 @@ public class VideoController {
 			map.put("uid", userId);
 			videoService.setWatched(map);
 		}
-			
+			 
 		
 		/*
 		 * id에 해당하는 video의 리뷰를 가져 온 뒤 평균을 계산하여 객체 정보에 저장
