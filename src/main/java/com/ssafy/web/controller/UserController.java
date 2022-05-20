@@ -114,7 +114,7 @@ public class UserController {
 		return new ResponseEntity<String>(userid, HttpStatus.OK);
 	}
 	
-	//비밀번호 재설정
+	//비밀번호 재설정 자격 검증 페이지
 	@GetMapping("/changPw/auth")
 	public ResponseEntity<String> changPwAuth(@RequestBody User user) throws Exception {
 		//아이디, 닉네임, 이메일을 입력받고 동일한지 검사
@@ -131,9 +131,17 @@ public class UserController {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
+	//비밀번호 재설정
 	@PutMapping("/changPw/{userid}")
 	public ResponseEntity<String> changePw(@PathVariable String userid, String pw) throws Exception{
 		userService.changePw(userid, pw);
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+	
+	//회원 정보 수정
+	@PutMapping("/info/{userid}")
+	public ResponseEntity<String> update(User newUser, @PathVariable String userid){
+		userService.changeUserInfo(newUser, userid);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 }
