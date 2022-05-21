@@ -115,7 +115,7 @@ public class VideoController {
 		 * USERID는 토큰에서 얻어옴
 		 */
 
-		int userId = 1;
+		int userId = 10;
 
 		List<Video> video = videoService.getWatched(userId);
 
@@ -135,7 +135,7 @@ public class VideoController {
 	@GetMapping("/liked")
 	public ResponseEntity<List<Video>> videoLiked() {
 
-		int userId = 1;
+		int userId = 10;
 
 		/*
 		 * USERID는 토큰에서 얻어옴
@@ -212,9 +212,11 @@ public class VideoController {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		User user;
 		try {
-			user = userService.selectOneById(Integer.toString(userId));
-			map.put("uid", user.getId());
+			//user = userService.selectOneById(Integer.toString(userId));
+			map.put("uid", userId);
+			//map.put("uid", user.getId());
 			map.put("id", id);
+			System.out.println(map.get("uid") + " " + map.get("id"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -241,8 +243,8 @@ public class VideoController {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		User user;
 		try {
-			user = userService.selectOneById(Integer.toString(userId));
-			map.put("uid", user.getId());
+			//user = userService.selectOneById(Integer.toString(userId));
+			map.put("uid", userId);
 			map.put("id", id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
