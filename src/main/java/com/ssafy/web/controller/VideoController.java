@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.web.model.dto.Interest;
@@ -156,7 +157,7 @@ public class VideoController {
 			value = "추천 비디오를 반환"
 			)
 	@GetMapping("/recommended")
-	public ResponseEntity<List<Video>> videoRecommended(HttpServletRequest req) {
+	public ResponseEntity<List<Video>> videoRecommended() {
 
 		int userId = 1;
 
@@ -192,11 +193,14 @@ public class VideoController {
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
 	}
 	
+	/*
+	 * 좋아요를 누른경우 
+	 */
 	@ApiOperation(
 			value = "좋아요 누르기"
 			)
 	@PostMapping("/likes")
-	public ResponseEntity<String> insertLikes(@RequestBody int id) {
+	public ResponseEntity<String> insertLikes(@RequestParam int id) {
 
 		
 		int userId = 1;
@@ -226,7 +230,7 @@ public class VideoController {
 			value = "좋아요 취소"
 			)
 	@DeleteMapping("/likes")
-	public ResponseEntity<String> deleteLikes(@RequestBody int id) {
+	public ResponseEntity<String> deleteLikes(@RequestParam int id) {
 
 		int userId = 1;
 
