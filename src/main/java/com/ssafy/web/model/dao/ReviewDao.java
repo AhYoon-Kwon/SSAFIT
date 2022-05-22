@@ -21,12 +21,10 @@ public interface ReviewDao {
 	List<Review> selectByVId(int vid);
 	
 	//비디오 id에 맞는 부모리뷰 select 
-	//param: HashMap<video id, depth>
-	List<Review> selectParRev(HashMap<Integer, Integer> params);
+	List<Review> selectParRev(int vid);
 	
 	//비디오 id에 맞는 자식리뷰 select
-	//param: HashMap<video id, depth>
-	List<Review> selectChildRev(HashMap<Integer, Integer> params);
+	List<Review> selectChildRev(int vid);
 	
 	//댓글 수정을 위한 리뷰 하나 select
 	Review selectOne(int id);
