@@ -1,17 +1,14 @@
 package com.ssafy.web.util;
 
-import java.util.Base64;
 import java.util.Date;
+import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.ssafy.web.model.dto.User;
 import com.ssafy.web.model.service.UserService;
 
 import io.jsonwebtoken.Claims;
@@ -32,41 +29,37 @@ public class JWTUtil {
 	//토큰 유효시간 30분
 	private long tokenValidTime = 30 * 60 * 1000L;
 	
-	//JWT 토큰 생성
-	public String createToken(String claimId, String data) throws Exception {
+	//JWT 토큰 생성(User 객체를 담아 전송)
+	public String createToken(String claimId) throws Exception {
 		Date now = new Date();
+		User user = userService.selectOneById(claimId);
 		return Jwts.builder()
 				.setHeaderParam("alg", "HS256")
 				.setHeaderParam("typ", "JWT")
-				.claim(claimId, data)
+				.claim("user", user) //토큰에 담기는 데이터
 				.setExpiration(new Date(now.getTime() + tokenValidTime)) //토큰 유효시간 설정
+				.setIssuedAt(new Date(now.getTime())) // 발급 시간 기록
 				.signWith(SignatureAlgorithm.HS256, SALT.getBytes("UTF-8"))
+				.setSubject("userToken") //토큰 제목
 				.compact();
 	}
 	
-	// JWT 토큰에서 인증 정보 조회
-//    public Authentication getAuthentication(String token) throws Exception {
-//        UserDetails userDetails = userService.selectOneById(this.getUserPk(token));
-//        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-//    }
+	// 토큰에 담긴 정보를 가져오기
+	public Map<String, Object> getInfo(String token) throws Exception {
+		Jws<Claims> claims = null;
+		try {
+			claims = Jwts.parser().setSigningKey(SALT.getBytes())
+					.parseClaimsJws(token); // SALT를 사용하여 복호화
+		} catch(Exception e) {
+			throw new Exception();
+		}
+		
+		return claims.getBody();
+	}
+	
+	// interceptor에서 토큰 유효성을 검증하기 위한 메서드
+	public void checkValid(String token) {
+		Jwts.parser().setSigningKey(SALT.getBytes()).parseClaimsJws(token);
+	}
 
-    // 토큰에서 회원 정보 추출
-    public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(SALT).parseClaimsJws(token).getBody().getSubject();
-    }
-
-    // Request의 Header에서 token 값을 가져옵니다. "Authorization" : "TOKEN값'
-    public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
-    }
-
-    // 토큰의 유효성 + 만료일자 확인
-    public boolean validateToken(String jwtToken) {
-        try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(SALT).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

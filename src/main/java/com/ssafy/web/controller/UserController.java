@@ -74,7 +74,7 @@ public class UserController {
 			//user 정보를 이용하여 데이터베이스 확인
 			//존재하면 토큰을 생성해서 결과에 넣어 반환
 			if(userService.login(user.getUserid(), user.getPw()) == 1) {
-				result.put("access-token", jwtUtil.createToken("userid", user.getUserid()));
+				result.put("access-token", jwtUtil.createToken(user.getUserid()));
 				result.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			}else {
