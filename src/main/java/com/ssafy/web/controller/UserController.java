@@ -3,20 +3,21 @@ package com.ssafy.web.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.javassist.bytecode.DuplicateMemberException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.web.exception.UserNotFoundException;
 import com.ssafy.web.exception.WrongInfoException;
 import com.ssafy.web.model.dto.User;
@@ -26,6 +27,7 @@ import com.ssafy.web.util.JWTUtil;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+	private static final String HEADER_AUTH = "access-token";
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 	
@@ -34,6 +36,20 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@GetMapping("/getUser") // 토큰에 담겨있는 사용자 정보를 리턴, 토큰이 필요한 경로
+	public ResponseEntity<Object> getUser(HttpServletRequest request) {
+		try {
+			String token = request.getHeader(HEADER_AUTH);
+			Map<String, Object> tokenInfoMap = jwtUtil.getInfo(token);
+			
+			User user = new ObjectMapper().convertValue(tokenInfoMap.get("user"), User.class);
+			
+			return new ResponseEntity<Object>(user, HttpStatus.OK);
+		} catch(Exception e) {
+			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
+		}
+	}
 	
 	//아이디 중복 체크
 	@GetMapping("/join/id/{userid}")
