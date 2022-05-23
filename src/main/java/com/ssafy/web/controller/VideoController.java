@@ -123,7 +123,7 @@ public class VideoController {
 			e.printStackTrace();
 		}
 		System.out.println(userId);
-		
+
 		List<Video> video = videoService.getWatched(userId);
 		/*
 		 * NULL 처리
@@ -181,16 +181,16 @@ public class VideoController {
 			e.printStackTrace();
 		}
 		System.out.println("object token : " + userId);
-		
+
 		List<Interest> interests = videoService.getInterest(userId);
 
 		// 시청하지 않은 동영상 중 관심도가 높은 동영상 순으로 동영상 배열을 설정
 		if (interests != null) {
-		video = new ArrayList<Video>();
+			video = new ArrayList<Video>();
 			System.out.println("not null 부분");
 			for (Interest i : interests) {
 				HashMap<String, String> map = new HashMap<String, String>();
-			map.put("part", i.getPart());
+				map.put("part", i.getPart());
 				map.put("id", Integer.toString(userId));
 				video.addAll(videoService.searchNotWatchedByPart(map));
 			}
@@ -224,8 +224,7 @@ public class VideoController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		/*
 		 * 이미 좋아요를 누른경우??? 예외처리 어떻게?
 		 */
