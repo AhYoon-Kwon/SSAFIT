@@ -13,15 +13,14 @@ public interface ReviewService {
 	//리뷰삭제
 	boolean deleteReview(int id);
 	
-	//1안. 부모리뷰, 자식댓글 따로 가져오기
 	//부모 댓글 가져오기
 	List<Review> getParRev(int vid);
 	//자식 댓글 가져오기
 	List<Review> getChildRev(int vid);
 	
-	//2안. 다른 창으로 리뷰 세부정보 가져가기
 	//전체 리뷰
 	List<Review> getReviewList(int vid);
+	List<Review> getUserReviewList(int vid, int uid);
 	//리뷰 아이디 얻어오기
 	Review getReviewById(int id);
 	//리뷰 읽기

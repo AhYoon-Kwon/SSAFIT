@@ -58,6 +58,11 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.selectByVId(vid);
 	}
 
+	@Override
+	public List<Review> getUserReviewList(int vid, int uid) {
+		return reviewDao.selectByUID(vid, uid);
+	}
+
 	//선택한 비디오의 부모 댓글 리스트
 	@Override
 	public List<Review> getParRev(int vid) {

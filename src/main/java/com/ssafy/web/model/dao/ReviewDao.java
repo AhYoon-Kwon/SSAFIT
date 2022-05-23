@@ -20,6 +20,8 @@ public interface ReviewDao {
 	//param: video id
 	List<Review> selectByVId(int vid);
 	
+	List<Review> selectByUID(int vid, int uid);
+	
 	//비디오 id에 맞는 부모리뷰 select 
 	List<Review> selectParRev(int vid);
 	
