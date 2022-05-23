@@ -156,7 +156,7 @@ public class UserController {
 	@PostMapping("/info/auth")
 	public ResponseEntity<String> updateAuth(HttpServletRequest request, String pw) throws Exception {
 			String token = request.getHeader(HEADER_AUTH);
-			User user = jwtUtil.getInfo(token);
+			User user = userService.selectOneById(jwtUtil.getInfo(token).getUserid());
 			if(!user.getPw().equals(new SHA256().getHash(pw)))
 				return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 			else
