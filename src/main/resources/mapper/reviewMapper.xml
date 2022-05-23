@@ -22,7 +22,7 @@
 	</delete> <!-- deleteRevGroup -->
 	
 	<select id="selectByVId" resultType="review" parameterType="int">
-		SELECT r.id, rate, content, time, depth, re_id, u.nickname
+		SELECT r.id, rate, content, time, depth, re_id, u.nickname AS writer
 		FROM review r
 		JOIN user u
 		ON r.uid = u.id
