@@ -34,6 +34,7 @@ public class JWTUtil {
 	public String createToken(String claimId) throws Exception {
 		Date now = new Date();
 		User user = userService.selectOneById(claimId);
+		user.setPw("");
 		return Jwts.builder()
 				.setHeaderParam("alg", "HS256")
 				.setHeaderParam("typ", "JWT")

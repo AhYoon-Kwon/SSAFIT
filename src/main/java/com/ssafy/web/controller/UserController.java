@@ -41,9 +41,7 @@ public class UserController {
 	public ResponseEntity<Object> getUser(HttpServletRequest request) {
 		try {
 			String token = request.getHeader(HEADER_AUTH);
-			Map<String, Object> tokenInfoMap = jwtUtil.getInfo(token);
-			
-			User user = new ObjectMapper().convertValue(tokenInfoMap.get("user"), User.class);
+			User user = jwtUtil.getInfo(token);
 			
 			return new ResponseEntity<Object>(user, HttpStatus.OK);
 		} catch(Exception e) {
