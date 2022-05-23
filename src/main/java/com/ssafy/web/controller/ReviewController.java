@@ -1,5 +1,6 @@
 package com.ssafy.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -99,8 +100,9 @@ public class ReviewController {
 	
 	//비디오 각각의 리뷰 리스트 반환
 	@GetMapping("/all/{vid}/{uid}")
-	public ResponseEntity<List<Review>> userList(@PathVariable int vid, @PathVariable int uid) {
-		List<Review> review = reviewService.getUserReviewList(vid, uid);
+	public ResponseEntity<List<Review>> userList(@PathVariable HashMap<String, Integer> params) {
+		//params : user id, vid
+		List<Review> review = reviewService.getUserReviewList(params);
 		
 		return new ResponseEntity<List<Review>>(review, HttpStatus.OK);
 	}

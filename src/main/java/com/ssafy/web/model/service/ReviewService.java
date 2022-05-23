@@ -20,7 +20,7 @@ public interface ReviewService {
 	
 	//전체 리뷰
 	List<Review> getReviewList(int vid);
-	List<Review> getUserReviewList(int vid, int uid);
+	List<Review> getUserReviewList(HashMap<String, Integer> params);
 	//리뷰 아이디 얻어오기
 	Review getReviewById(int id);
 	//리뷰 읽기
