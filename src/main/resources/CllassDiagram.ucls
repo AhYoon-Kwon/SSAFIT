@@ -181,7 +181,7 @@
   </interface>  
   <interface id="22" language="java" name="com.ssafy.web.model.dao.VideoDao" project="SSAFIT" 
     file="/SSAFIT/src/main/java/com/ssafy/web/model/dao/VideoDao.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="396" width="469" x="7236" y="774"/>    
+    <position height="-1" width="-1" x="7472" y="987"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
