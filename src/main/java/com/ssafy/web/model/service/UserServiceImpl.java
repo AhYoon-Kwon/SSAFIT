@@ -102,6 +102,7 @@ public class UserServiceImpl implements UserService{
 		User user = userDao.selectOneById(userid);
 		//새 비밀번호 저장하기
 		user.setPw(new SHA256().getHash(newPw));
+		userDao.update(user);
 	}
 	
 	//userid로 id찾기
