@@ -165,13 +165,13 @@ public class UserController {
 	}
 	
 	//회원 정보 수정
-	//이름, 이메일만 수정
+	//이름, 이메일, 프로필 수정
 	@PutMapping("/info/{userid}")
 	public ResponseEntity<String> update(User newUser, @PathVariable String userid) throws Exception{
 		User oldUser = userService.selectOneById(userid);
 		oldUser.setNickname(newUser.getNickname());
 		oldUser.setEmail(newUser.getEmail());
-		
+		oldUser.setProfile(newUser.getProfile());
 		userService.changeUserInfo(oldUser, userid);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
