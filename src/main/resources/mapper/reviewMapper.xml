@@ -9,17 +9,17 @@
 		VALUES (#{vid}, #{uid}, #{rate}, #{content}, now(), 0, #{re_id})
 	</insert>
 	
-	<update id="updateReview">
+	<update id="updateReview" parameterType="review">
 		UPDATE review
 		SET rate = #{rate},
-			content = #{content},
-		WHERE id = #{id}
+			content = #{content}
+		WHERE id = #{id};
 	</update>
 	
 	<delete id="deleteReview" parameterType="int">
 		DELETE FROM review 
-		WHERE id = #{id}
-	</delete>
+		WHERE re_id = #{id}
+	</delete> <!-- deleteRevGroup -->
 	
 	<select id="selectByVId" resultType="review" parameterType="int">
 		SELECT r.id, rate, content, time, depth, re_id, u.nickname
@@ -29,8 +29,7 @@
 		WHERE vid = #{vid};
 	</select>
 	
-	<select id="selectParRev" resultType="review" parameterType="HashMap"> 
-	<!-- where절에서 한번걸러서 select문에서 depth는 안가져와도 될것같아 제외했습니다 -->
+	<select id="selectParRev" resultType="review" parameterType="int"> 
 		SELECT r.id, rate, content, time, re_id, u.nickname
 		FROM review r
 		JOIN user u
@@ -38,7 +37,7 @@
 		WHERE vid = #{vid} AND depth = 0;
 	</select>
 	
-	<select id="selectChildRev" resultType="review" parameterType="HashMap">
+	<select id="selectChildRev" resultType="review" parameterType="int">
 		SELECT r.id, rate, content, time, re_id, u.nickname
 		FROM review r
 		JOIN user u
@@ -78,7 +77,7 @@
 	
 	<delete id="deleteRevGroup" parameterType="java.util.HashMap">
 		DELETE FROM review
-		WHERE vid = #{vid} AND re_id = #{re_id}
+		WHERE re_id = #{re_id}
 	</delete>
 	
 	<insert id="insertReply">
@@ -88,7 +87,7 @@
 	
 	<update id="updateReply">
 		UPDATE review
-		SET content = #{content},
+		SET content = #{content}
 		WHERE id = #{id}
 	</update>
 </mapper>

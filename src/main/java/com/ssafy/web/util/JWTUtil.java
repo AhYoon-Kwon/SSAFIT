@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.web.model.dto.User;
 import com.ssafy.web.model.service.UserService;
 
@@ -45,16 +46,21 @@ public class JWTUtil {
 	}
 	
 	// 토큰에 담긴 정보를 가져오기
-	public Map<String, Object> getInfo(String token) throws Exception {
+	public User getInfo(String token) throws Exception {
 		Jws<Claims> claims = null;
+		User user = null;
 		try {
 			claims = Jwts.parser().setSigningKey(SALT.getBytes())
 					.parseClaimsJws(token); // SALT를 사용하여 복호화
+			ObjectMapper obj = new ObjectMapper();
+			user = obj.convertValue(claims.getBody().get("user"), User.class);
+			
 		} catch(Exception e) {
 			throw new Exception();
 		}
+	
 		
-		return claims.getBody();
+		return user;
 	}
 	
 	// interceptor에서 토큰 유효성을 검증하기 위한 메서드

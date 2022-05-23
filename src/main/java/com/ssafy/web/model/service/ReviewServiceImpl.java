@@ -18,17 +18,32 @@ public class ReviewServiceImpl implements ReviewService {
 	//리뷰 쓰기 (부모댓글)
 	@Override
 	public void writeReview(Review review) {
-		reviewDao.insertReview(review);
-		reviewDao.parentCheck(review.getId());
+		boolean isRoot = review.getDepth() == 0;
+		
+		if(isRoot) {
+			reviewDao.insertReview(review);
+			reviewDao.parentCheck(review.getId());
+		}
+		else {
+			reviewDao.insertReply(review);
+		}
 	}
 
 	//리뷰 수정 : 내용, 평점 수정
 	@Override
 	public boolean modifyReview(Review review) {
 		Review originReview = reviewDao.selectOne(review.getId());
-		originReview.setContent(review.getContent());
-		originReview.setRate(review.getRate());
-		return reviewDao.updateReview(originReview) == 1;
+		
+		boolean isRoot = review.getDepth() == 0;
+		if(isRoot) {
+			originReview.setContent(review.getContent());
+			originReview.setRate(review.getRate());			
+			return reviewDao.updateReview(originReview) == 1;
+		}
+		else {
+			originReview.setContent(review.getContent());
+			return reviewDao.updateReply(originReview) == 1;
+		}
 	}
 
 	//리뷰 삭제 : 댓글 없을 시
@@ -45,14 +60,14 @@ public class ReviewServiceImpl implements ReviewService {
 
 	//선택한 비디오의 부모 댓글 리스트
 	@Override
-	public List<Review> getParRev(HashMap<Integer, Integer> params) {
-		return reviewDao.selectParRev(params);
+	public List<Review> getParRev(int vid) {
+		return reviewDao.selectParRev(vid);
 	}
 	
 	//선택한 비디오의 자식 댓글 리스트
 	@Override
-	public List<Review> getChildRev(HashMap<Integer, Integer> params) {
-		return reviewDao.selectChildRev(params);
+	public List<Review> getChildRev(int vid) {
+		return reviewDao.selectChildRev(vid);
 	}
 	
 	//리뷰 아이디로 가져오기
@@ -67,6 +82,7 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.selectOne(id);
 	}
 
+	/* 대댓 하단 기능 없어도 되는지 확인필요 */
 	//리뷰 댓글 쓰기
 	@Override
 	public void writeReply(Review review) {

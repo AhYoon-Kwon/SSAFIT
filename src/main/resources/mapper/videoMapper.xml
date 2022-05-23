@@ -98,7 +98,7 @@
 	
 	<delete id="deleteLikes" parameterType="java.util.HashMap">
 		DELETE FROM likes 
-		WHERE uid = #{uid} AND liked = #{id};
+		WHERE uid = ${uid} AND liked = ${id};
 	</delete>
 	
 	<select id="selectPartAll" resultType="String">
