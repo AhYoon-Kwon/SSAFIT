@@ -22,19 +22,11 @@
 	</delete> <!-- deleteRevGroup -->
 	
 	<select id="selectByVId" resultType="review" parameterType="int">
-		SELECT r.id, rate, content, time, depth, re_id, u.userid AS writer
+		SELECT r.id, r.uid, rate, content, time, depth, re_id, u.userid AS writer
 		FROM review r
 		JOIN user u
 		ON r.uid = u.id
 		WHERE vid = #{vid};
-	</select>
-	
-	<select id="selectByUID" resultType="review" parameterType="HashMap">
-		SELECT r.id, rate, content, time, depth, re_id, u.userid AS writer
-		FROM review r
-		JOIN user u
-		ON r.uid = u.id
-		WHERE vid = #{vid} AND uid = #{uid};
 	</select>
 	
 	<select id="selectParRev" resultType="review" parameterType="int"> 
