@@ -97,6 +97,14 @@ public class ReviewController {
 		return new ResponseEntity<List<Review>>(review, HttpStatus.OK);
 	}
 	
+	//비디오 각각의 리뷰 리스트 반환
+	@GetMapping("/all/{vid}/{uid}")
+	public ResponseEntity<List<Review>> userList(@PathVariable int vid, @PathVariable int uid) {
+		List<Review> review = reviewService.getUserReviewList(vid, uid);
+		
+		return new ResponseEntity<List<Review>>(review, HttpStatus.OK);
+	}
+	
 	//선택한 비디오의 부모 댓글 리스트
 	@GetMapping("/par/{id}")
 	public ResponseEntity<List<Review>> parList(@PathVariable("id") int vid) {
