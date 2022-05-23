@@ -45,55 +45,55 @@
 #### VIDEO
 |칼럼명|데이터 타입|조건|설명|
 |:--:|:--:|:--:|:--:|
-|`id`|`int`|`pk` `not null`|`고유값`|
-|`video_key`|`varchar`|`not null`|`비디오 키`|
-|`title`|`varchar`|`not null`|`제목`|
-|`url`|`varchar`|`not null`|`주소`|
-|`part`|`varchar`|`not null`|`부위`|
-|`channel_name`|`varchar`|`not null`|`채널명`|
-|`view_cnt`|`int`|`null`|`조회수`|
+|`id`|`int`|`pk` `not null`|고유값|
+|`video_key`|`varchar`|`not null`|비디오 키|
+|`title`|`varchar`|`not null`|제목|
+|`url`|`varchar`|`not null`|주소|
+|`part`|`varchar`|`not null`|부위|
+|`channel_name`|`varchar`|`not null`|채널명|
+|`view_cnt`|`int`|`null`|조회수|
 
 #### USER
 |칼럼명|데이터 타입|조건|설명|
 |:--:|:--:|:--:|:--:|
-|`id`|`int`|`pk` `not null`|`고유값`|
-|`userid`|`varchar`|`not null`|`아이디`|
-|`nickname`|`varchar`|`not null`|`닉네임`|
-|`pw`|`varchar`|`not null`|`비밀번호`|
-|`email`|`varchar`|`not null`|`이메일`|
-|`profile`|`int`|`not null`|`프로필 사진 번호`|
+|`id`|`int`|`pk` `not null`|고유값|
+|`userid`|`varchar`|`not null`|아이디|
+|`nickname`|`varchar`|`not null`|닉네임|
+|`pw`|`varchar`|`not null`|비밀번호|
+|`email`|`varchar`|`not null`|이메일|
+|`profile`|`int`|`not null`|프로필 사진 번호|
 
 #### REVIEW
 |칼럼명|데이터 타입|조건|설명|
 |:--:|:--:|:--:|:--:|
-|`id`|`int`|`pk` `not null`|`고유값`|
-|`vid`|`int`|`not null`|`비디오 고유값`|
-|`uid`|`int`|`not null`|`회원 고유값`|
-|`rate`|`double`|`default 0`|`별점`|
-|`content`|`text`|`not null`|`리뷰 내용`|
-|`time`|`datetime`|`default now()`|`작성 시간`|
-|`depth`|`int`|`default 0`|`깊이`|
-|`re_id`|`int`|`null`|`리뷰 아이디`|
+|`id`|`int`|`pk` `not null`|고유값|
+|`vid`|`int`|`not null`|비디오 고유값|
+|`uid`|`int`|`not null`|회원 고유값|
+|`rate`|`double`|`default 0`|별점|
+|`content`|`text`|`not null`|리뷰 내용|
+|`time`|`datetime`|`default now()`|작성 시간|
+|`depth`|`int`|`default 0`|깊이|
+|`re_id`|`int`|`null`|리뷰 아이디|
 
 #### LIKES
 |칼럼명|데이터 타입|조건|설명|
 |:--:|:--:|:--:|:--:|
-|`id`|`int`|`pk` `not null`|`고유값`|
-|`uid`|`int`|`not null` `fk`|`회원 고유값`|
-|`liked`|`int`|`not null` `fk`|`찜한 비디오 아이디`|
+|`id`|`int`|`pk` `not null`|고유값|
+|`uid`|`int`|`not null` `fk`|회원 고유값|
+|`liked`|`int`|`not null` `fk`|찜한 비디오 아이디|
 
 #### PART
 |칼럼명|데이터 타입|조건|설명|
 |:--:|:--:|:--:|:--:|
-|`id`|`int`|`pk` `not null`|`고유값`|
-|`part`|`varchar`||`부위`|
+|`id`|`int`|`pk` `not null`|고유값|
+|`part`|`varchar`||부위|
 
 #### WATCHED
 |칼럼명|데이터 타입|조건|설명|
 |:--:|:--:|:--:|:--:|
-|`id`|`int`|`pk` `not null`|`고유값`|
-|`uid`|`int`|`not null` `fk`|`회원 고유값`|
-|`watched`|`int`|`not null` `fk`|`시청한 비디오 아이디`|
+|`id`|`int`|`pk` `not null`|고유값|
+|`uid`|`int`|`not null` `fk`|회원 고유값|
+|`watched`|`int`|`not null` `fk`|시청한 비디오 아이디|
 <br/>
 
 ## 📃API 설계
