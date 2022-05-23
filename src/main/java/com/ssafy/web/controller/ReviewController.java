@@ -2,6 +2,8 @@ package com.ssafy.web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +15,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.web.model.dao.UserDao;
 import com.ssafy.web.model.dto.Review;
+import com.ssafy.web.model.dto.User;
 import com.ssafy.web.model.service.ReviewService;
 import com.ssafy.web.model.service.UserService;
 import com.ssafy.web.model.service.VideoService;
+import com.ssafy.web.util.JWTUtil;
 
 @RestController
 @RequestMapping("/review")
 public class ReviewController {
-	
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 	
@@ -29,14 +33,24 @@ public class ReviewController {
 	private ReviewService reviewService;
 	
 	@Autowired
-	private UserService userService;
+	private UserDao userDao;
 	
 	@Autowired
-	private VideoService videoService;
+	private JWTUtil jwtUtil;
 	
 	//리뷰 쓰기
 	@PostMapping("/write")
-	public ResponseEntity<String> write(Review review){
+	public ResponseEntity<String> write(Review review, HttpServletRequest req){
+		String token = req.getHeader("access-token");
+		int uid = 0;
+		try {
+			uid = jwtUtil.getInfo(token).getId();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		review.setUid(uid);
+		
 		reviewService.writeReview(review);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.CREATED);
 	}
@@ -48,7 +62,6 @@ public class ReviewController {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
-	/* 삭제 다시 체크 필 */
 	//리뷰 삭제
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> delete(Integer id){
