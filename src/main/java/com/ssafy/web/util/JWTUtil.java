@@ -46,6 +46,7 @@ public class JWTUtil {
 				.compact();
 	}
 	
+	
 	// 토큰에 담긴 정보를 가져오기
 	public User getInfo(String token) throws Exception {
 		Jws<Claims> claims = null;
