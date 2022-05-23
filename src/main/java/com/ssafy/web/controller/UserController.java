@@ -23,6 +23,7 @@ import com.ssafy.web.exception.WrongInfoException;
 import com.ssafy.web.model.dto.User;
 import com.ssafy.web.model.service.UserService;
 import com.ssafy.web.util.JWTUtil;
+import com.ssafy.web.util.SHA256;
 
 @RestController
 @RequestMapping("/user")
@@ -145,18 +146,23 @@ public class UserController {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
-//	//비밀번호 재설정
-//	@PutMapping("/change-pw/{userid}")
-//	public ResponseEntity<String> changePw(@PathVariable String userid, String pw) throws Exception{
-//		userService.changePw(userid, pw);
-//		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-//	}
-	
 	//비밀번호 재설정
 	@PutMapping("/change-pw")
 	public ResponseEntity<String> changePw(User user) throws Exception{
 		userService.changePw(user.getUserid(), user.getPw());
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+	
+	//회원 정보 수정 자격 검증 페이지
+	@PostMapping("/info/auth")
+	public ResponseEntity<String> updateAuth(HttpServletRequest request, String pw) throws Exception {
+			String token = request.getHeader(HEADER_AUTH);
+			User user = jwtUtil.getInfo(token);
+			if(!user.getPw().equals(new SHA256().getHash(pw)))
+				return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+			else
+				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+				
 	}
 	
 	//회원 정보 수정
