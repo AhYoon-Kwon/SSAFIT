@@ -145,10 +145,17 @@ public class UserController {
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
+//	//비밀번호 재설정
+//	@PutMapping("/change-pw/{userid}")
+//	public ResponseEntity<String> changePw(@PathVariable String userid, String pw) throws Exception{
+//		userService.changePw(userid, pw);
+//		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+//	}
+	
 	//비밀번호 재설정
-	@PutMapping("/change-pw/{userid}")
-	public ResponseEntity<String> changePw(@PathVariable String userid, String pw) throws Exception{
-		userService.changePw(userid, pw);
+	@PutMapping("/change-pw")
+	public ResponseEntity<String> changePw(User user) throws Exception{
+		userService.changePw(user.getUserid(), user.getPw());
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
