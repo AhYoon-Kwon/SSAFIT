@@ -104,7 +104,6 @@ public class UserController {
 	}
 	
 	//회원탈퇴
-	//회원탈퇴하고 리뷰 삭제하는 거 추가해야함
 	@DeleteMapping("/{userid}")
 	public ResponseEntity<String> delete(@PathVariable String userid, String pw) throws Exception{
 		if(userService.singOut(userid, pw) == 1) {
