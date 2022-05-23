@@ -28,8 +28,7 @@ public interface ReviewDao {
 	
 	//댓글 수정을 위한 리뷰 하나 select
 	Review selectOne(int id);
-	
-	
+
 	
 	//유저 탈퇴시 리뷰 전체 삭제 기능
 	void userDelete(String userid);
