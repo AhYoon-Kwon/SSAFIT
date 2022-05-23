@@ -41,7 +41,7 @@ public class ChatController {
 		return new ResponseEntity<List<Chat>>(chat, HttpStatus.OK);
 	}
 	
-	@PutMapping("/delete/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<String> deleteChat(@PathVariable int id){
 		
 		chatService.deleteChat(id);
