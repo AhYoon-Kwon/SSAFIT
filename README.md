@@ -15,6 +15,7 @@
 <br/>
     
     * View : 무한 스크롤,  ... 
+    
     <span style="color:red"> 프론트에서 기능 더 추가해야하는거 채워주세요!!!! </span>
 * 개발 언어 : java, javascript, html, css
 * 개발 환경 : springboot 2.6.7, vue.js, junit
