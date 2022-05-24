@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `review` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `vid` INT NOT NULL,
   `uid` INT NOT NULL,
-  `rate`  DEFAULT 0,
+  `rate` INT DEFAULT 0,
   `content` TEXT NOT NULL,
   `time` DATETIME DEFAULT NOW(),
   `depth` INT DEFAULT 0,
