@@ -299,5 +299,29 @@ public class VideoController {
 
 		return rate;
 	}
+	
+	/*
+	 * 플레이리스트에 담은 비디오를 반환
+	 */
+	@ApiOperation(value = "플레이리스트 목록을 반환")
+	@GetMapping("/playlist")
+	public ResponseEntity<List<Video>> playlist(HttpServletRequest req) {
 
+		/*
+		 * USERID는 토큰에서 얻어옴
+		 */
+		String token = req.getHeader("access-token");
+		int userId = 0;
+		try {
+			userId = jwtUtil.getInfo(token).getId();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		List<Video> video = videoService.getPlayList(userId);
+		/*
+		 * NULL 처리
+		 */
+		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
+	}
 }
