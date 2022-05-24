@@ -85,7 +85,7 @@ public class ReviewController {
 	//리뷰 삭제
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> delete(Integer id){
-		if(reviewService.deleteReview(id)) {
+		if(reviewService.deleteReview(id) && id != null) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
