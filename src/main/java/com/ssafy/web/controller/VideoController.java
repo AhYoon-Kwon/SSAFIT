@@ -305,7 +305,7 @@ public class VideoController {
 	 */
 	@ApiOperation(value = "플레이리스트 목록을 반환")
 	@GetMapping("/playlist")
-	public ResponseEntity<List<Video>> playlist(HttpServletRequest req) {
+	public ResponseEntity<List<Video>> getPlaylist(HttpServletRequest req) {
 
 		/*
 		 * USERID는 토큰에서 얻어옴
@@ -323,5 +323,72 @@ public class VideoController {
 		 * NULL 처리
 		 */
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
+	}
+	
+	/*
+	 * 플레이리스트에 추가한 경우
+	 */
+	@ApiOperation(value = "플레이리스트 추가")
+	@PostMapping("/playlist")
+	public ResponseEntity<String> insertPlaylist(@RequestParam int id, HttpServletRequest req) {
+
+		/*
+		 * USERID는 토큰에서 얻어옴
+		 */
+
+		String token = req.getHeader("access-token");
+		int userId = 0;
+		try {
+			userId = jwtUtil.getInfo(token).getId();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		/*
+		 * 이미 좋아요를 누른경우??? 예외처리 어떻게?
+		 */
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+
+		map.put("uid", userId);
+		map.put("id", id);
+
+		System.out.println(map.get("uid") + " " + map.get("id"));
+
+		videoService.setLikes(map);
+
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "플레이리스트에서 삭제")
+	@DeleteMapping("/playlist/{id}")
+	public ResponseEntity<String> deletePlaylist(@PathVariable int id, HttpServletRequest req) {
+
+		/*
+		 * USERID는 토큰에서 얻어옴
+		 */
+		String token = req.getHeader("access-token");
+		int userId = 0;
+		try {
+			userId = jwtUtil.getInfo(token).getId();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		/*
+		 * 좋아요 누르지 않은 id에 대해 요청을 보낼 경우 예외처리를 해줘야한다.
+		 */
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+
+		map.put("uid", userId);
+		map.put("id", id);
+
+		System.out.println(map.get("uid") + " " + map.get("id"));
+
+		videoService.deleteLikes(map);
+
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 }
