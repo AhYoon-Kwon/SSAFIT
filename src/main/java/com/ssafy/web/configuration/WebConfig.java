@@ -34,11 +34,10 @@ public class WebConfig implements WebMvcConfigurer{
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(jwtInterceptor)
 		.addPathPatterns("/**")
-		.excludePathPatterns("/**");
-//		.excludePathPatterns("/video/all")
-//		.excludePathPatterns("/video/part")
-//		.excludePathPatterns("/user/change-pw/**")
-//		.excludePathPatterns("/user/join/**")
-//		.excludePathPatterns("/user/login");
+		.excludePathPatterns("/video/all")
+		.excludePathPatterns("/video/part")
+		.excludePathPatterns("/user/change-pw/**")
+		.excludePathPatterns("/user/join/**")
+		.excludePathPatterns("/user/login");
 	}
 }
