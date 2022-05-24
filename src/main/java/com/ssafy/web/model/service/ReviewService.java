@@ -7,7 +7,7 @@ import com.ssafy.web.model.dto.Review;
 
 public interface ReviewService {
 	//리뷰쓰기
-	void writeReview(Review review);
+	void writeReview(Review review, int depth);
 	//리뷰수정
 	boolean modifyReview(Review review);
 	//리뷰삭제
