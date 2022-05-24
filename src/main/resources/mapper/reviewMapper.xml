@@ -6,7 +6,7 @@
 <mapper namespace="com.ssafy.web.model.dao.ReviewDao">
 	<insert id="insertReview">
 		INSERT INTO review (VID, UID, RATE, CONTENT, TIME, DEPTH, RE_ID)
-		VALUES (#{vid}, #{uid}, #{rate}, #{content}, now(), 0, #{re_id})
+		VALUES (#{vid}, #{uid}, #{rate}, #{content}, now(), #{depth}, #{re_id})
 	</insert>
 	
 	<update id="updateReview" parameterType="review">

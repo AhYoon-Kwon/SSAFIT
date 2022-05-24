@@ -55,7 +55,9 @@ public class ReviewController {
 		
 		review.setUid(uid);
 		
-		reviewService.writeReview(review);
+		int depth = review.getDepth();
+		
+		reviewService.writeReview(review, depth);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.CREATED);
 	}
 	

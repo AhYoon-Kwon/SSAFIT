@@ -17,15 +17,11 @@ public class ReviewServiceImpl implements ReviewService {
 
 	//리뷰 쓰기 (부모댓글)
 	@Override
-	public void writeReview(Review review) {
-		boolean isRoot = review.getDepth() == 0;
+	public void writeReview(Review review, int depth) {
+		reviewDao.insertReview(review);
 		
-		if(isRoot) {
-			reviewDao.insertReview(review);
+		if(depth == 0) {
 			reviewDao.parentCheck(review.getId());
-		}
-		else {
-			reviewDao.insertReply(review);
 		}
 	}
 
