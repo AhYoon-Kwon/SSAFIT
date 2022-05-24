@@ -30,7 +30,7 @@
 	</select>
 	
 	<select id="selectParRev" resultType="review" parameterType="int"> 
-		SELECT r.id, rate, content, time, re_id, u.nickname
+		SELECT r.id, r.uid, rate, content, time, re_id, u.nickname
 		FROM review r
 		JOIN user u
 		ON r.uid = u.id
@@ -38,7 +38,7 @@
 	</select>
 	
 	<select id="selectChildRev" resultType="review" parameterType="int">
-		SELECT r.id, rate, content, time, re_id, u.nickname
+		SELECT r.id, r.uid, rate, content, time, re_id, u.nickname
 		FROM review r
 		JOIN user u
 		ON r.uid = u.id
