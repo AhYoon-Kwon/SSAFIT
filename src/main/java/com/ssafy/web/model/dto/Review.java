@@ -13,7 +13,7 @@ public class Review {
 	private int id; //review id
 	private int vid; //video id
 	private int uid; //user id
-	private double rate;
+	private int rate;
 	private String content;
 	private String time;
 	private int depth;  //댓글의 깊이 , 일반 댓글은 0, 대댓글은 1
