@@ -105,6 +105,8 @@
 		SELECT part FROM part;
 	</select>
 	
-	
+	<select id="getPlayList" resultMap="videoMap" parameterType="int">
+		SELECT * FROM video JOIN playlist ON video.id = playlist.vid WHERE uid = #{id};
+	</select>
 
 </mapper>
