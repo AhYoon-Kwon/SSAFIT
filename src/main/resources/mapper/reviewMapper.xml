@@ -18,11 +18,11 @@
 	
 	<delete id="deleteReview" parameterType="int">
 		DELETE FROM review 
-		WHERE re_id = #{id}
+		WHERE re_id = #{id} AND #{id} IS NOT NULL;
 	</delete> <!-- deleteRevGroup -->
 	
 	<select id="selectByVId" resultType="review" parameterType="int">
-		SELECT r.id, r.uid, rate, content, time, depth, re_id, u.userid AS writer
+		SELECT r.id, r.uid, rate, content, time, depth, re_id, u.userid AS writer, u.profile
 		FROM review r
 		JOIN user u
 		ON r.uid = u.id
@@ -30,7 +30,7 @@
 	</select>
 	
 	<select id="selectParRev" resultType="review" parameterType="int"> 
-		SELECT r.id, r.uid, rate, content, time, re_id, u.nickname
+		SELECT r.id, r.uid, rate, content, time, re_id, u.nickname AS writer, u.profile
 		FROM review r
 		JOIN user u
 		ON r.uid = u.id
@@ -38,7 +38,7 @@
 	</select>
 	
 	<select id="selectChildRev" resultType="review" parameterType="int">
-		SELECT r.id, r.uid, rate, content, time, re_id, u.nickname
+		SELECT r.id, r.uid, rate, content, time, re_id, u.nickname AS writer, u.profile
 		FROM review r
 		JOIN user u
 		ON r.uid = u.id

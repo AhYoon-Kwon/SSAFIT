@@ -130,5 +130,10 @@ public class VideoServiceImpl implements VideoService{
 		// TODO Auto-generated method stub
 		return videoDao.selectPartAll();
 	}
+
+	@Override
+	public List<Video> getPlayList(int id) {
+		return videoDao.getPlayList(id);
+	}
 	
 }
