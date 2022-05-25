@@ -36,6 +36,7 @@ public class WebConfig implements WebMvcConfigurer{
 		.addPathPatterns("/**")
 		.excludePathPatterns("/video/all")
 		.excludePathPatterns("/video/part")
+		.excludePathPatterns("/video/recommended")
 		.excludePathPatterns("/user/change-pw/**")
 		.excludePathPatterns("/user/join/**")
 		.excludePathPatterns("/user/login");
