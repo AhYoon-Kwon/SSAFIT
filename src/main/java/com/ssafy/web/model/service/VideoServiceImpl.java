@@ -131,19 +131,4 @@ public class VideoServiceImpl implements VideoService{
 		return videoDao.selectPartAll();
 	}
 
-	@Override
-	public List<Video> getPlayList(int id) {
-		return videoDao.getPlayList(id);
-	}
-
-	@Override
-	public void addPlayList(HashMap<String, Integer> map) {
-		videoDao.insertPlayList(map);
-	}
-
-	@Override
-	public void deletePlayList(HashMap<String, Integer> map) {
-		videoDao.deletePlayList(map);
-	}
-	
 }
