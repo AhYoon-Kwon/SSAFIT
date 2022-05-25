@@ -22,7 +22,7 @@ public interface UserService {
 	//비밀번호 재설정
 	void changePw(String userid, String newPw) throws Exception;
 	//회원 탈퇴
-	int singOut(String userid, String pw) throws Exception;
+	int signOut(String userid) throws Exception;
 	//아이디로 회원 불러오기
 	User selectOneById(String userid) throws Exception;
 }
