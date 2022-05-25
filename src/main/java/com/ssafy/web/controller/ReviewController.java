@@ -62,19 +62,9 @@ public class ReviewController {
 	}
 	
 	//리뷰 수정
-	@PutMapping("/update/{id}")
-	public ResponseEntity<String> update(@PathVariable("id") int uid, Review review, HttpServletRequest req){
-		String token = req.getHeader("access-token");
-		uid = 0;
-		try {
-			uid = jwtUtil.getInfo(token).getId();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		boolean isUser = uid == review.getUid();
-		if(isUser) {
-			reviewService.modifyReview(review);
+	@PutMapping("/update")
+	public ResponseEntity<String> update(Review review, HttpServletRequest req){
+		if(reviewService.modifyReview(review)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		else {
