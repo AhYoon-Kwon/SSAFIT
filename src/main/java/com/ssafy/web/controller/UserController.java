@@ -104,9 +104,11 @@ public class UserController {
 	}
 	
 	//회원탈퇴
-	@DeleteMapping("/{userid}")
-	public ResponseEntity<String> delete(@PathVariable String userid, String pw) throws Exception{
-		if(userService.singOut(userid, pw) == 1) {
+	@DeleteMapping("/signout")
+	public ResponseEntity<String> delete(HttpServletRequest request) throws Exception{
+		String token = request.getHeader(HEADER_AUTH);
+		String userid = jwtUtil.getInfo(token).getUserid();
+		if(userService.signOut(userid) == 1) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
@@ -155,12 +157,12 @@ public class UserController {
 	//회원 정보 수정 자격 검증 페이지
 	@PostMapping("/info/auth")
 	public ResponseEntity<String> updateAuth(HttpServletRequest request, String pw) throws Exception {
-			String token = request.getHeader(HEADER_AUTH);
-			User user = userService.selectOneById(jwtUtil.getInfo(token).getUserid());
-			if(!user.getPw().equals(new SHA256().getHash(pw)))
-				return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
-			else
-				return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		String token = request.getHeader(HEADER_AUTH);
+		User user = userService.selectOneById(jwtUtil.getInfo(token).getUserid());
+		if(!user.getPw().equals(new SHA256().getHash(pw)))
+			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+		else
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 				
 	}
 	

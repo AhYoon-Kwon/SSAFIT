@@ -81,18 +81,11 @@ public class UserServiceImpl implements UserService{
 	//회원 탈퇴
 	@Transactional
 	@Override
-	public int singOut(String userid, String pw) throws Exception {
-		User user = userDao.selectOneById(userid);
+	public int signOut(String userid) throws Exception {
 		int id = userDao.selectIdByUserid(userid);
-		//저장된 비밀번호와 다른 비밀번호 입력하면 0 반환
-		if(!user.getPw().equals(new SHA256().getHash(pw)))
-			return 0;
-		//회원탈퇴
-		else {
-			reviewDao.userDelete(userid);
-			userDao.delete(id);
-			return 1;
-		}
+		reviewDao.userDelete(userid);
+		userDao.delete(id);
+		return 1;
 	}
 	
 	//비밀번호 재설정
