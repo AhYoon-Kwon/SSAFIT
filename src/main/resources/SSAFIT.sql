@@ -43,7 +43,19 @@ CREATE TABLE IF NOT EXISTS `review` (
   `re_id` INT NULL,
   
   PRIMARY KEY (`id`));
-
+  
+  -- -----------------------------------------------------
+-- Table `playlist`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `playlist` (
+  `id` INT AUTO_INCREMENT NOT NULL,
+  `uid` INT NOT NULL,
+  `title` VARCHAR(50) default "나만의 재생목록",
+  `vid` INT NOT NULL,
+  FOREIGN KEY(`vid`) REFERENCES `video`(`id`),
+  FOREIGN KEY(`uid`) REFERENCES `user`(`id`),
+  PRIMARY KEY (`id`));
+  
 -- -----------------------------------------------------
 -- Table `likes`
 -- -----------------------------------------------------
