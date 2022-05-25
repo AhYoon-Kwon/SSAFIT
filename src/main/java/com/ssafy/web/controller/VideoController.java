@@ -267,6 +267,7 @@ public class VideoController {
 			e.printStackTrace();
 		}
 
+		
 		/*
 		 * 좋아요 누르지 않은 id에 대해 요청을 보낼 경우 예외처리를 해줘야한다.
 		 */
