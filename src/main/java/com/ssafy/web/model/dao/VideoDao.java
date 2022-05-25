@@ -58,7 +58,13 @@ public interface VideoDao {
 	// 모든 부위를 반환
 	List<String> selectPartAll();
 	
-	//플레이리스트 생성
+	//플레이리스트 반환
 	//user id를 받음
 	List<Video> getPlayList(int id);
+	
+	//플레이리스트 추가
+	void insertPlayList(HashMap<String, Integer> map);
+		
+	//플레이리스트 삭제
+	void deletePlayList(HashMap<String, Integer> map);
 }

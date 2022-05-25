@@ -367,7 +367,7 @@ public class VideoController {
 
 		System.out.println(map.get("uid") + " " + map.get("id"));
 
-		videoService.setLikes(map);
+		videoService.addPlayList(map);
 
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
@@ -398,7 +398,7 @@ public class VideoController {
 
 		System.out.println(map.get("uid") + " " + map.get("id"));
 
-		videoService.deleteLikes(map);
+		videoService.deletePlayList(map);
 
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}

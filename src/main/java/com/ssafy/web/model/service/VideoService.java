@@ -61,4 +61,10 @@ public interface VideoService {
 	
 	//플레이리스트에 담은 비디오를 반환
 	List<Video> getPlayList(int id);
+	
+	// 플레이리스트 추가
+	void addPlayList(HashMap<String, Integer> map);
+		
+	// 플레이리스트 삭제
+	void deletePlayList(HashMap<String, Integer> map);
 }
