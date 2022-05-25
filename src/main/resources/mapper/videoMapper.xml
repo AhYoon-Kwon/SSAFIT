@@ -105,4 +105,13 @@
 		SELECT part FROM part;
 	</select>
 	
+	<delete id="deleteUserLiked" parameterType="int">
+		DELETE FROM likes 
+		WHERE uid = ${uid};
+	</delete>
+	
+	<delete id="deleteUserWatched" parameterType="int">
+		DELETE FROM watched 
+		WHERE uid = ${uid};
+	</delete>
 </mapper>

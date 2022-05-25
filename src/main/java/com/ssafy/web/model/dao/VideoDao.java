@@ -58,4 +58,9 @@ public interface VideoDao {
 	// 모든 부위를 반환
 	List<String> selectPartAll();
 	
+	//회원탈퇴시 찜목록 삭제
+	void deleteUserLiked(int id);
+	
+	//회원탈퇴시 시청기록 삭제
+	void deleteUserWatched(int id);
 }
