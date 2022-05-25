@@ -1,20 +1,13 @@
 package com.ssafy.web.model.service;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 
 import com.ssafy.web.exception.UserNotFoundException;
 import com.ssafy.web.model.dao.ReviewDao;
 import com.ssafy.web.model.dao.UserDao;
+import com.ssafy.web.model.dao.VideoDao;
 import com.ssafy.web.model.dto.User;
 import com.ssafy.web.util.SHA256;
 
@@ -24,6 +17,9 @@ public class UserServiceImpl implements UserService{
 	private UserDao userDao;
 	@Autowired
 	private ReviewDao reviewDao;
+	@Autowired
+	private VideoDao videoDao;
+	
 	//아이디 중복 체크
 	//1이면 중복으로 아이디 사용 불가, 아니라면 사용 가능
 	@Override
@@ -84,6 +80,8 @@ public class UserServiceImpl implements UserService{
 	public int signOut(String userid) throws Exception {
 		int id = userDao.selectIdByUserid(userid);
 		reviewDao.userDelete(userid);
+		videoDao.deleteUserLiked(id);
+		videoDao.deleteUserWatched(id);
 		userDao.delete(id);
 		return 1;
 	}
