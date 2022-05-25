@@ -63,7 +63,7 @@ public class ReviewController {
 	
 	//리뷰 수정
 	@PutMapping("/update")
-	public ResponseEntity<String> update(Review review, HttpServletRequest req){
+	public ResponseEntity<String> update(Review review){
 		if(reviewService.modifyReview(review)) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
