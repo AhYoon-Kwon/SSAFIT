@@ -173,36 +173,47 @@ public class VideoController {
 		 * USERID는 토큰에서 얻어옴
 		 */
 		String token = req.getHeader("access-token");
-		int userId = 0;
+		if(token == null) {
+			video = videoService.getVideoRand();
+			return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
+		}
+		
 		try {
+			int userId = 0;
 			userId = jwtUtil.getInfo(token).getId();
+			
+			System.out.println("object token : " + userId);
+			
+			List<Interest> interests = videoService.getInterest(userId);
+			
+			// 시청하지 않은 동영상 중 관심도가 높은 동영상 순으로 동영상 배열을 설정
+			if (interests != null) {
+				video = new ArrayList<Video>();
+				System.out.println("not null 부분");
+				for (Interest i : interests) {
+					HashMap<String, String> map = new HashMap<String, String>();
+					map.put("part", i.getPart());
+					map.put("id", Integer.toString(userId));
+					video.addAll(videoService.searchNotWatchedByPart(map));
+				}
+				
+			}
+			// 관심분야가 없을 경우 랜덤으로 비디오 반환
+			else {
+				System.out.println("null 부분");
+				video = videoService.getNotWatchedVideoRand(userId);
+			}
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("object token : " + userId);
-
-		List<Interest> interests = videoService.getInterest(userId);
-
-		// 시청하지 않은 동영상 중 관심도가 높은 동영상 순으로 동영상 배열을 설정
-		if (interests != null) {
-			video = new ArrayList<Video>();
-			System.out.println("not null 부분");
-			for (Interest i : interests) {
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("part", i.getPart());
-				map.put("id", Integer.toString(userId));
-				video.addAll(videoService.searchNotWatchedByPart(map));
-			}
-
-		}
-		// 관심분야가 없을 경우 랜덤으로 비디오 반환
-		else {
-			System.out.println("null 부분");
-			video = videoService.getNotWatchedVideoRand(userId);
-		}
-
+		
+		
 		return new ResponseEntity<List<Video>>(video, HttpStatus.OK);
+		
+		
 	}
 
 	/*
