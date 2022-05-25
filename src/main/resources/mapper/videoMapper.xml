@@ -105,17 +105,4 @@
 		SELECT part FROM part;
 	</select>
 	
-	<select id="getPlayList" resultMap="videoMap" parameterType="int">
-		SELECT * FROM video JOIN playlist ON video.id = playlist.vid WHERE uid = #{id};
-	</select>
-	
-	<insert id="insertPlayList" parameterType="java.util.HashMap">
-		INSERT INTO playlist (uid, vid)
-		VALUE (#{uid}, #{id});
-	</insert>
-	
-	<delete id="deletePlayList" parameterType="java.util.HashMap">
-		DELETE FROM playlist 
-		WHERE uid = ${uid} AND vid = ${id};
-	</delete>
 </mapper>
