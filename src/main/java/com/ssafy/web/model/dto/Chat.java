@@ -9,5 +9,6 @@ public class Chat {
 	private String writer;
 	private String content;
 	private String regDate;
-	
+	private int type;
+	private int profile;
 }

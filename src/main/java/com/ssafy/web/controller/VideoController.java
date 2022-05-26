@@ -185,9 +185,9 @@ public class VideoController {
 			System.out.println("object token : " + userId);
 			
 			List<Interest> interests = videoService.getInterest(userId);
-			
+			System.out.println(interests);
 			// 시청하지 않은 동영상 중 관심도가 높은 동영상 순으로 동영상 배열을 설정
-			if (interests != null) {
+			if (!interests.isEmpty()) {
 				video = new ArrayList<Video>();
 				System.out.println("not null 부분");
 				for (Interest i : interests) {

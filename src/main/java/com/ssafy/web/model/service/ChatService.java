@@ -12,4 +12,5 @@ public interface ChatService {
 	
 	List<Chat> showChat();
 	
+	List<Chat> showChatById(int id);
 }

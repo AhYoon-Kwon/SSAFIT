@@ -8,6 +8,8 @@ public interface ChatDao {
 	
 	List<Chat> selectAll();
 	
+	List<Chat> selectById(int id);
+	
 	void insertChat(Chat chat);
 	
 	void deleteChat(int id);

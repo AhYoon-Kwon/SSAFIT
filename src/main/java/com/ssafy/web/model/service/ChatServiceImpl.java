@@ -32,5 +32,10 @@ public class ChatServiceImpl implements ChatService{
 		return chatDao.selectAll();
 	}
 	
+	@Override
+	public List<Chat> showChatById(int id) {
+		// TODO Auto-generated method stub
+		return chatDao.selectById(id);
+	}
 	
 }

@@ -10,23 +10,30 @@
 		<result column="writer" property="writer" />
 		<result column="content" property="content" />
 		<result column="reg_date" property="regDate" />
+		<result column="chat_type" property="type" />
+		<result column="profile" property="profile" />
 	</resultMap>
 	
 	<select id="selectAll" resultMap="chatMap">
-		SELECT * FROM chat;
+		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, chat.profile FROM chat JOIN user on chat.uid = user.id;
 	</select>
 	
+	<select id="selectById" parameterType="int" resultMap="chatMap">
+		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, chat.profile 
+		FROM chat JOIN user on chat.uid = user.id
+		WHERE chat.id >= #{id};
+	</select>
 	
 	<update id="deleteChat" parameterType="int">
 		UPDATE chat SET 
-		content = "삭제된 메세지입니다."
+		content = "삭제된 메세지입니다.", type = 2
 		WHERE id = #{id};
 	</update>
 	
 	<insert id="insertChat" parameterType="chat">
-		INSERT INTO chat (uid, writer, content, reg_date)
+		INSERT INTO chat (uid, writer, content, reg_date, chat_type, profile)
 		VALUE
-		(#{uid}, #{writer}, #{content} , NOW());
+		(#{uid}, #{writer}, #{content} , NOW(), #{type}, 0);
 		
 	</insert>
 	

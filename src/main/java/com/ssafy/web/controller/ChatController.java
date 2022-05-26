@@ -33,12 +33,23 @@ public class ChatController {
 	@Autowired
 	JWTUtil jwtUtil;
 	
-	@GetMapping("/all")
-	public ResponseEntity<List<Chat>> showAll() {
+	@GetMapping("/all/{id}")
+	public ResponseEntity<List<Chat>> showAll(@PathVariable int id) {
 		
-		List<Chat> chat = chatService.showChat();
+		List<Chat> chat = chatService.showChatById(id);
 
 		return new ResponseEntity<List<Chat>>(chat, HttpStatus.OK);
+	}
+	
+	@GetMapping("/recent")
+	public ResponseEntity<Integer> getRecentId() {
+		List<Chat> chat = chatService.showChat();
+		if(chat == null)
+			return new ResponseEntity<Integer>(0, HttpStatus.OK);
+		
+		int id = chat.size();
+		
+		return new ResponseEntity<Integer>(id, HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
@@ -51,7 +62,7 @@ public class ChatController {
 	}
 	
 	@PostMapping("/insert")
-	public ResponseEntity<String> insertChat(@RequestParam String content, HttpServletRequest req){
+	public ResponseEntity<String> insertChat(@RequestParam String content, @RequestParam int type, HttpServletRequest req){
 		String token = req.getHeader("access-token");
 		
 		User user;
@@ -61,7 +72,27 @@ public class ChatController {
 			chat.setContent(content);
 			chat.setUid(user.getId());
 			chat.setWriter(user.getNickname());
+			chat.setType(type);
+			chat.setProfile(user.getProfile());
+			if(type == 1 && content.equals("입장")) {
+				chat.setContent("입장하셨습니다");
+				chatService.insertChat(chat);
+				List<Chat> chats = chatService.showChat();
+				if(chats == null)
+					return new ResponseEntity<String>("0", HttpStatus.OK);
+				
+				int id = chats.size();
+				return new ResponseEntity<String>(Integer.toString(id), HttpStatus.OK);
+				
+			}
+			else if(type == 1 && content.equals("퇴장")){
+				chat.setContent("퇴장하셨습니다");
+			}
+			
 			chatService.insertChat(chat);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,8 +101,9 @@ public class ChatController {
 		}
 		
 		
-		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
+	
+	
 
 	
 }
