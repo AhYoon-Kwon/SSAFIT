@@ -89,6 +89,10 @@ public class ChatController {
 				chat.setContent("퇴장하셨습니다");
 			}
 			
+			chatService.insertChat(chat);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,7 +101,6 @@ public class ChatController {
 		}
 		
 		
-		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
 	
