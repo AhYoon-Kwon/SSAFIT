@@ -53,7 +53,13 @@ public class VideoServiceImpl implements VideoService{
 		video.setViewCnt(video.getViewCnt() + 1);
 		videoDao.update(video);
 	}
-	
+	@Override
+	public void updatelikes(int id) {
+		// TODO Auto-generated method stub
+		Video video = videoDao.selectById(id);
+		video.setLikes(video.getLikes() + 1);
+		videoDao.update(video);
+	}
 	@Override
 	public List<Interest> getInterest(int id) {
 		
@@ -129,6 +135,22 @@ public class VideoServiceImpl implements VideoService{
 	public List<String> getPartAll() {
 		// TODO Auto-generated method stub
 		return videoDao.selectPartAll();
+	}
+
+	@Override
+	public void updateReviewCnt(int id) {
+		// TODO Auto-generated method stub
+		Video video = videoDao.selectById(id);
+		video.setReviewCnt(video.getReviewCnt() + 1);
+		videoDao.update(video);
+	}
+
+	@Override
+	public void updateRateAvg(int id, int rate) {
+		// TODO Auto-generated method stub
+		Video video = videoDao.selectById(id);
+		video.setAvgRate((video.getAvgRate() * video.getReviewCnt() + rate)/ (video.getReviewCnt() + 1));
+		videoDao.update(video);
 	}
 
 }

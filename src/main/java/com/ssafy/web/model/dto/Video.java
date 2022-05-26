@@ -21,4 +21,5 @@ public class Video {
 	
 	private double avgRate;
 	private int likes;
+	private int reviewCnt;
 }

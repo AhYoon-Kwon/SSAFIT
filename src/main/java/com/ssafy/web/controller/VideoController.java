@@ -247,7 +247,7 @@ public class VideoController {
 		System.out.println(map.get("uid") + " " + map.get("id"));
 
 		videoService.setLikes(map);
-
+		videoService.updatelikes(id);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 

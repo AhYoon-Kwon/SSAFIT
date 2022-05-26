@@ -18,12 +18,16 @@
 	</select>
 	
 	<insert id="insertPlayList" parameterType="java.util.HashMap">
-		INSERT INTO playlist (uid, num)
-		VALUE (#{uid}, #{num});
+		INSERT INTO playlist (uid, num, vid)
+		VALUE (#{uid}, #{num}, #{vid});
 	</insert>
 	
 	<delete id="deletePlayList" parameterType="java.util.HashMap">
 		DELETE FROM playlist 
 		WHERE uid = ${uid} AND num = ${num};
 	</delete>
+	
+	<select id="getMaxNum" resultType="int" parameterType="int">
+		SELECT max(num) from playlist where uid = #{uid};
+	</select>
 </mapper>
