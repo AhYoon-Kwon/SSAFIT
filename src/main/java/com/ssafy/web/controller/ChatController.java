@@ -66,7 +66,7 @@ public class ChatController {
 		String token = req.getHeader("access-token");
 		
 		User user;
-		try {
+		try { 
 			user = jwtUtil.getInfo(token);
 			System.out.println(user);
 			Chat chat = new Chat();
