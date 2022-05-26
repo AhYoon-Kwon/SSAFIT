@@ -11,10 +11,11 @@
 		<result column="content" property="content" />
 		<result column="reg_date" property="regDate" />
 		<result column="chat_type" property="type" />
+		<result column="profile" property="profile" />
 	</resultMap>
 	
 	<select id="selectAll" resultMap="chatMap">
-		SELECT * FROM chat;
+		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, chat.profile FROM chat JOIN user on chat.uid = user.id;
 	</select>
 	
 	
@@ -25,9 +26,9 @@
 	</update>
 	
 	<insert id="insertChat" parameterType="chat">
-		INSERT INTO chat (uid, writer, content, reg_date, chat_type)
+		INSERT INTO chat (uid, writer, content, reg_date, chat_type, profile)
 		VALUE
-		(#{uid}, #{writer}, #{content} , NOW(), #{type});
+		(#{uid}, #{writer}, #{content} , NOW(), #{type}, 0);
 		
 	</insert>
 	

@@ -10,5 +10,5 @@ public class Chat {
 	private String content;
 	private String regDate;
 	private int type;
-	
+	private int profile;
 }
