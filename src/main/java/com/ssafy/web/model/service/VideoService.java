@@ -28,7 +28,12 @@ public interface VideoService {
 	
 	// viewCnt 증가
 	void updateViewCnt(int id);
-	
+	// likes 증가
+	void updatelikes(int id);
+	// reviewCnt 증가
+	void updateReviewCnt(int id);
+	// Rate avg 수정
+	void updateRateAvg(int id, int rate);
 	// User의 부위별 관심도를 반환
 	List<Interest> getInterest(int id);
 	
