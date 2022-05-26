@@ -11,6 +11,8 @@
 		<result column="part" property="part" />
 		<result column="channel_name" property="channelName" />
 		<result column="view_cnt" property="viewCnt" />
+		<result column="rate_avg" property="avgRate" />
+		<result column="likes" property="likes" />
 	</resultMap>
 	
 	<resultMap type="interest" id="interestMap">
@@ -76,7 +78,7 @@
 	<update id="update" parameterType="video">
 		UPDATE video SET 
 		video_key = #{videoKey}, title = #{title}, url = #{url}, part = #{part}, 
-		channel_name = #{channelName}, view_cnt = #{viewCnt} WHERE id = #{id};
+		channel_name = #{channelName}, view_cnt = #{viewCnt}, likes = #{likes}, rate_avg = #{avgRate}, review_cnt = #{reviewCnt} WHERE id = #{id};
 	</update>
 	
 	<insert id="insert" parameterType="video">

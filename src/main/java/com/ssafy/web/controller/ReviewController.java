@@ -58,6 +58,10 @@ public class ReviewController {
 		int depth = review.getDepth();
 		
 		reviewService.writeReview(review, depth);
+		if(depth == 0) {
+			videoService.updateRateAvg(review.getVid(), review.getRate());
+			videoService.updateReviewCnt(review.getVid());
+		}
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.CREATED);
 	}
 	
