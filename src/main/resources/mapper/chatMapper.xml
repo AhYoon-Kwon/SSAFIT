@@ -21,7 +21,7 @@
 	<select id="selectById" parameterType="int" resultMap="chatMap">
 		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, chat.profile 
 		FROM chat JOIN user on chat.uid = user.id
-		WHERE id >= #{id};
+		WHERE chat.id >= #{id};
 	</select>
 	
 	<update id="deleteChat" parameterType="int">
