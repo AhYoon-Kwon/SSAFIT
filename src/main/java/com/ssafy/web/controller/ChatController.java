@@ -73,6 +73,13 @@ public class ChatController {
 			chat.setUid(user.getId());
 			chat.setWriter(user.getNickname());
 			chat.setType(type);
+			if(type == 2 && content.equals("입장")) {
+				chat.setContent("입장하셨습니다");
+			}
+			else if(type == 2 && content.equals("퇴장")){
+				chat.setContent("퇴장하셨습니다");
+			}
+			
 			chatService.insertChat(chat);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
