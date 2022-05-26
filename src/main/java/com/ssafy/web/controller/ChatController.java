@@ -33,10 +33,10 @@ public class ChatController {
 	@Autowired
 	JWTUtil jwtUtil;
 	
-	@GetMapping("/all")
-	public ResponseEntity<List<Chat>> showAll() {
+	@GetMapping("/all/{id}")
+	public ResponseEntity<List<Chat>> showAll(@PathVariable int id) {
 		
-		List<Chat> chat = chatService.showChat();
+		List<Chat> chat = chatService.showChatById(id);
 
 		return new ResponseEntity<List<Chat>>(chat, HttpStatus.OK);
 	}
@@ -76,6 +76,7 @@ public class ChatController {
 			chat.setProfile(user.getProfile());
 			if(type == 1 && content.equals("입장")) {
 				chat.setContent("입장하셨습니다");
+				chatService.insertChat(chat);
 				List<Chat> chats = chatService.showChat();
 				if(chats == null)
 					return new ResponseEntity<String>("0", HttpStatus.OK);
@@ -88,7 +89,6 @@ public class ChatController {
 				chat.setContent("퇴장하셨습니다");
 			}
 			
-			chatService.insertChat(chat);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
