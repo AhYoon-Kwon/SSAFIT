@@ -237,7 +237,7 @@ public class VideoController {
 		}
 
 		/*
-		 * 이미 좋아요를 누른경우??? 예외처리 어떻게?
+		 * 이미 좋아요를 누른경우??? 예외처리 어떻게? 프론트가한다
 		 */
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 
