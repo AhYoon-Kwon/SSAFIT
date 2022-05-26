@@ -15,11 +15,11 @@
 	</resultMap>
 	
 	<select id="selectAll" resultMap="chatMap">
-		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, chat.profile FROM chat JOIN user on chat.uid = user.id;
+		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, user.profile FROM chat JOIN user on chat.uid = user.id;
 	</select>
 	
 	<select id="selectById" parameterType="int" resultMap="chatMap">
-		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, chat.profile 
+		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, user.profile 
 		FROM chat JOIN user on chat.uid = user.id
 		WHERE chat.id >= #{id};
 	</select>

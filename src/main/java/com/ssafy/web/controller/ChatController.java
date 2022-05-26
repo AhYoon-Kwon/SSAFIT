@@ -68,12 +68,12 @@ public class ChatController {
 		User user;
 		try {
 			user = jwtUtil.getInfo(token);
+			System.out.println(user);
 			Chat chat = new Chat();
 			chat.setContent(content);
 			chat.setUid(user.getId());
 			chat.setWriter(user.getNickname());
 			chat.setType(type);
-			chat.setProfile(user.getProfile());
 			if(type == 1 && content.equals("입장")) {
 				chat.setContent("입장하셨습니다");
 				chatService.insertChat(chat);
