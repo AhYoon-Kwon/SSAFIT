@@ -4,90 +4,90 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.ssafy.web.model.dao.ReviewDao">
-	<insert id="insertReview">
-		INSERT INTO review (VID, UID, RATE, CONTENT, TIME, DEPTH, RE_ID)
-		VALUES (#{vid}, #{uid}, #{rate}, #{content}, now(), #{depth}, #{re_id})
-	</insert>
-	
-	<update id="updateReview" parameterType="review">
-		UPDATE review
-		SET rate = #{rate},
-			content = #{content}
-		WHERE id = #{id};
-	</update>
-	
-	<delete id="deleteReview" parameterType="int">
-		DELETE FROM review 
-		WHERE re_id = #{id} OR id = #{id};
-	</delete> <!-- deleteRevGroup -->
-	
-	<select id="selectByVId" resultType="review" parameterType="int">
-		SELECT r.id, r.uid, rate, content, time, depth, re_id, u.userid AS writer, u.profile
-		FROM review r
-		JOIN user u
-		ON r.uid = u.id
-		WHERE vid = #{vid};
-	</select>
-	
-	<select id="selectParRev" resultType="review" parameterType="int"> 
-		SELECT r.id, r.uid, rate, content, time, re_id, u.nickname AS writer, u.profile
-		FROM review r
-		JOIN user u
-		ON r.uid = u.id
-		WHERE vid = #{vid} AND depth = 0;
-	</select>
-	
-	<select id="selectChildRev" resultType="review" parameterType="int">
-		SELECT r.id, r.uid, rate, content, time, re_id, u.nickname AS writer, u.profile
-		FROM review r
-		JOIN user u
-		ON r.uid = u.id
-		WHERE vid = #{vid} AND depth = 1
-	</select>
-	
-	<select id="selectOne" resultType="review" parameterType="int">
-		SELECT * FROM review WHERE id = #{id}
-	</select>
-	
-	<delete id="userDelete" parameterType="String">
-		DELETE FROM review
-		WHERE id 
-		IN (SELECT id FROM (
-			(SELECT id FROM review 
-			WHERE uid 
-			IN (SELECT id FROM user 
-				WHERE userid = #{userid}))
-		UNION
-			(SELECT id FROM review 
-			WHERE re_id 
-			IN (SELECT id FROM review 
-				WHERE uid 
-				IN (SELECT id FROM user 
-					WHERE userid = #{userid})))
-			) A
-		);
-	</delete>
-	
-	<!-- 대댓글 -->
-	<update id="parentCheck">
-		UPDATE review
-		SET re_id = id
-		WHERE id != re_id AND depth = 0
-	</update>
-	
-	<delete id="deleteRevGroup" parameterType="java.util.HashMap">
-		DELETE FROM review
-		WHERE re_id = #{re_id}
-	</delete>
-	
-	<insert id="insertReply">
-		INSERT INTO review (VID, UID, CONTENT, TIME, DEPTH, RE_ID)
-		VALUES (#{vid}, #{uid}, #{content}, now(), 1, #{re_id})
-	</insert>
-	
-	<update id="updateReply">
-		UPDATE review
-		SET content = #{content}
-		WHERE id = #{id}
-	</update>
+    <insert id="insertReview">
+        INSERT INTO review (VID, UID, RATE, CONTENT, TIME, DEPTH, RE_ID)
+        VALUES (#{vid}, #{uid}, #{rate}, #{content}, now(), #{depth}, #{re_id})
+    </insert>
+    
+    <update id="updateReview" parameterType="review">
+        UPDATE review
+        SET rate = #{rate},
+            content = #{content}
+        WHERE id = #{id};
+    </update>
+    
+    <delete id="deleteReview" parameterType="int">
+        DELETE FROM review 
+        WHERE re_id = #{id} OR id = #{id};
+    </delete> <!-- deleteRevGroup -->
+    
+    <select id="selectByVId" resultType="review" parameterType="int">
+        SELECT r.id, r.uid, rate, content, time, depth, re_id, u.userid AS writer, u.profile
+        FROM review r
+        JOIN user u
+        ON r.uid = u.id
+        WHERE vid = #{vid};
+    </select>
+    
+    <select id="selectParRev" resultType="review" parameterType="int"> 
+        SELECT r.id, r.uid, rate, content, time, re_id, u.nickname AS writer, u.profile
+        FROM review r
+        JOIN user u
+        ON r.uid = u.id
+        WHERE vid = #{vid} AND depth = 0;
+    </select>
+    
+    <select id="selectChildRev" resultType="review" parameterType="int">
+        SELECT r.id, r.uid, rate, content, time, re_id, u.nickname AS writer, u.profile
+        FROM review r
+        JOIN user u
+        ON r.uid = u.id
+        WHERE vid = #{vid} AND depth = 1
+    </select>
+    
+    <select id="selectOne" resultType="review" parameterType="int">
+        SELECT * FROM review WHERE id = #{id}
+    </select>
+    
+    <delete id="userDelete" parameterType="String">
+        DELETE FROM review
+        WHERE id 
+        IN (SELECT id FROM (
+            (SELECT id FROM review 
+            WHERE uid 
+            IN (SELECT id FROM user 
+                WHERE userid = #{userid}))
+        UNION
+            (SELECT id FROM review 
+            WHERE re_id 
+            IN (SELECT id FROM review 
+                WHERE uid 
+                IN (SELECT id FROM user 
+                    WHERE userid = #{userid})))
+            ) A
+        );
+    </delete>
+    
+    <!-- 대댓글 -->
+    <update id="parentCheck">
+        UPDATE review
+        SET re_id = id
+        WHERE id != re_id AND depth = 0
+    </update>
+    
+    <delete id="deleteRevGroup" parameterType="java.util.HashMap">
+        DELETE FROM review
+        WHERE re_id = #{re_id}
+    </delete>
+    
+    <insert id="insertReply">
+        INSERT INTO review (VID, UID, CONTENT, TIME, DEPTH, RE_ID)
+        VALUES (#{vid}, #{uid}, #{content}, now(), 1, #{re_id})
+    </insert>
+    
+    <update id="updateReply">
+        UPDATE review
+        SET content = #{content}
+        WHERE id = #{id}
+    </update>
 </mapper>

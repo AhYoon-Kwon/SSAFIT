@@ -51,7 +51,7 @@ public class ChatController {
 	}
 	
 	@PostMapping("/insert")
-	public ResponseEntity<String> insertChat(@RequestParam String content, HttpServletRequest req){
+	public ResponseEntity<String> insertChat(@RequestParam String content, @RequestParam int type, HttpServletRequest req){
 		String token = req.getHeader("access-token");
 		
 		User user;
@@ -61,6 +61,7 @@ public class ChatController {
 			chat.setContent(content);
 			chat.setUid(user.getId());
 			chat.setWriter(user.getNickname());
+			chat.setType(type);
 			chatService.insertChat(chat);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

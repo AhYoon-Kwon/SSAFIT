@@ -10,6 +10,7 @@
 		<result column="writer" property="writer" />
 		<result column="content" property="content" />
 		<result column="reg_date" property="regDate" />
+		<result column="chat_type" property="type" />
 	</resultMap>
 	
 	<select id="selectAll" resultMap="chatMap">
@@ -19,14 +20,14 @@
 	
 	<update id="deleteChat" parameterType="int">
 		UPDATE chat SET 
-		content = "삭제된 메세지입니다."
+		content = "삭제된 메세지입니다.", type = 2
 		WHERE id = #{id};
 	</update>
 	
 	<insert id="insertChat" parameterType="chat">
-		INSERT INTO chat (uid, writer, content, reg_date)
+		INSERT INTO chat (uid, writer, content, reg_date, chat_type)
 		VALUE
-		(#{uid}, #{writer}, #{content} , NOW());
+		(#{uid}, #{writer}, #{content} , NOW(), #{type});
 		
 	</insert>
 	
