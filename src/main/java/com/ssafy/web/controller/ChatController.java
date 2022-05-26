@@ -73,8 +73,16 @@ public class ChatController {
 			chat.setUid(user.getId());
 			chat.setWriter(user.getNickname());
 			chat.setType(type);
+			chat.setProfile(user.getProfile());
 			if(type == 1 && content.equals("입장")) {
 				chat.setContent("입장하셨습니다");
+				List<Chat> chats = chatService.showChat();
+				if(chats == null)
+					return new ResponseEntity<String>("0", HttpStatus.OK);
+				
+				int id = chats.size();
+				return new ResponseEntity<String>(Integer.toString(id), HttpStatus.OK);
+				
 			}
 			else if(type == 1 && content.equals("퇴장")){
 				chat.setContent("퇴장하셨습니다");
@@ -91,6 +99,8 @@ public class ChatController {
 		
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
+	
+	
 
 	
 }
