@@ -18,6 +18,11 @@
 		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, chat.profile FROM chat JOIN user on chat.uid = user.id;
 	</select>
 	
+	<select id="selectById" parameterType="int" resultMap="chatMap">
+		SELECT chat.id AS id, uid, writer, content, reg_date, chat_type, chat.profile 
+		FROM chat JOIN user on chat.uid = user.id
+		WHERE id >= #{id};
+	</select>
 	
 	<update id="deleteChat" parameterType="int">
 		UPDATE chat SET 
