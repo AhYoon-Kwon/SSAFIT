@@ -41,6 +41,17 @@ public class ChatController {
 		return new ResponseEntity<List<Chat>>(chat, HttpStatus.OK);
 	}
 	
+	@GetMapping("/recent")
+	public ResponseEntity<Integer> getRecentId() {
+		List<Chat> chat = chatService.showChat();
+		if(chat == null)
+			return new ResponseEntity<Integer>(0, HttpStatus.OK);
+		
+		int id = chat.size();
+		
+		return new ResponseEntity<Integer>(id, HttpStatus.OK);
+	}
+	
 	@PutMapping("/{id}")
 	public ResponseEntity<String> deleteChat(@PathVariable int id){
 		
