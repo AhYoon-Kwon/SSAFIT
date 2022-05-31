@@ -1,7 +1,7 @@
 # SSAFIT
 ## 📌프로젝트 특징
 * Spring Boot와 Vue.js를 기반으로 하는 운동 영상 리뷰 커뮤니티 웹서비스
-
+* 프론트엔드 Repo 주소: https://github.com/CastleSilver/SSAFIT_Front
 ---
 
 ## 📌프로젝트 개요
