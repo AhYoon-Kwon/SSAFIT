@@ -12,11 +12,6 @@
     * User 관련 : JWT를 이용한 회원가입, 로그인, 아이디 및 비밀번호 찾기, 비밀번호 재설정, 회원 정보 수정
     * Video 관련 : 전체 동영상 조회, 시청 기록, 찜 기능, 추천 비디오, 운동 부위별 조회, 리뷰 평점
     * Review 관련 : 비디오 리뷰 CRUD, 리뷰 별점, 리뷰 댓글 기능
-<br/>
-    
-    * View : 무한 스크롤,  ... 
-    
-    <span style="color:red"> 프론트에서 기능 더 추가해야하는거 채워주세요!!!! </span>
 * 개발 언어 : java, javascript, html, css
 * 개발 환경 : springboot 2.6.7, vue.js, junit
 * 데이터베이스 : mysql
